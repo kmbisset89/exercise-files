@@ -51,6 +51,7 @@ public class ValleyViewModel extends AndroidViewModel {
 
     public LiveData<List<MemberInfo>> getmCertainMember(long memberSort) {return mRepository.getmCertainMember(memberSort);}
 
+    public LiveData<List<MemberInfo>> checkEmail (String memberEmail) {return mRepository.checkEmail(memberEmail);}
 
     public LiveData<List<MemberFilter>> getmAllMemberFilters() {
         return mAllMemberFilters;

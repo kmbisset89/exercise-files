@@ -1,6 +1,7 @@
 package com.example.kerrymbisset.valleybeta3;
 
 import android.annotation.TargetApi;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -11,9 +12,12 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceScreen;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -41,7 +45,8 @@ import java.util.Objects;
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
-    private ValleyViewModel mViewModel;
+
+
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -128,6 +133,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
+
+
     }
 
     /**
@@ -187,39 +194,30 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
+        private Context mContext;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
+
+
+            CheckBoxPreference somePreference =(CheckBoxPreference) findPreference("login_check");
+
+                PreferenceScreen preferenceScreen = getPreferenceScreen();
+                preferenceScreen.removePreference(somePreference);
+
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("user_email_address"));
-            bindPreferenceSummaryToValue(findPreference("user_password"));
-
-            Preference email = findPreference("user_email_address");
-            Preference password = findPreference("user_password");
-                if (email == null){
-
-                } else {
-                    checkEmailAgainstDatabase(email);
-
-                }
-
-        }
-
-        private void checkEmailAgainstDatabase(Preference email) {
-
-            String getEmail = email.toString();
-            DataRepository mRepository = DataRepository.sInstance;
-            Objects.equals(getEmail,mRepository.checkEmail(getEmail));
-            ValleyViewModel mViewModel = ViewModelProviders.of();
 
 
         }
+
+
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
@@ -291,4 +289,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
+
+
+
 }

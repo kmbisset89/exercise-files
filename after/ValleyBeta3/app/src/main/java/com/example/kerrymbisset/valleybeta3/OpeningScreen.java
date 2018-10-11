@@ -1,7 +1,10 @@
 package com.example.kerrymbisset.valleybeta3;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import static com.example.kerrymbisset.valleybeta3.List_Activity.CHOICE;
 
@@ -33,6 +37,24 @@ public class OpeningScreen extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        FloatingActionButton fab = findViewById(R.id.logout);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences prefs =
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("login_check", false);
+            }
+        });
+
+
+
+
     }
 
 
@@ -63,6 +85,11 @@ public class OpeningScreen extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent (this, SettingsActivity.class));
+            return true;
+        }
+
+        if (id == R.id.action_login) {
+            startActivity(new Intent (this, LoginActivity.class));
             return true;
         }
 

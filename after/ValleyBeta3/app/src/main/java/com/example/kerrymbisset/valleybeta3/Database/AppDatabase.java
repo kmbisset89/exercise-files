@@ -21,7 +21,7 @@ import java.lang.reflect.Member;
  * Created by danielmalone on 10/28/17.
  */
 
-@Database(entities = {EventFilter.class, Events.class, SGFilter.class, MemberInfo.class, MemberFilter.class}, version = 9)
+@Database(entities = {EventFilter.class, Events.class, SGFilter.class, MemberInfo.class, MemberFilter.class}, version = 11)
 
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -71,16 +71,16 @@ public abstract class AppDatabase extends RoomDatabase {
                 {  new MemberInfo( "Kerry Bisset", "kerry.bisset@gmail.com",
                         "2059488952", "Password",
                         2, 3, 0),
-                        new MemberInfo( "William Plott", "kerry.bisset@gmail.com",
+                        new MemberInfo( "William Plott", "w.plott@valley.com",
                                 "2059488952", "Password",
                                 5, 1, 0),
-                        new MemberInfo( "Kevin Palm", "kerry.bisset@gmail.com",
+                        new MemberInfo( "Kevin Palm", "k.palm@gmail.com",
                                 "2059488952", "Password",
                                 4, 3, 0),
-                        new MemberInfo( "Visior Jim", "vistor.jim@gmail.com",
+                        new MemberInfo( "Visitor Jim", "visitor.jim@gmail.com",
                                 "2059488952", "Password",
                                 1, 1, 0),
-                        new MemberInfo( "Daniel Stevenson", "kerry.bisset@gmail.com",
+                        new MemberInfo( "Daniel Stevenson", "d.stevenson@gmail.com",
                                 "2059488952", "Password",2, 2, 0),
                 };
 

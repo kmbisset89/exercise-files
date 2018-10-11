@@ -3,6 +3,8 @@ package com.example.kerrymbisset.valleybeta3;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.example.kerrymbisset.valleybeta3.Database.ValleyViewModel;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.kerrymbisset.valleybeta3.CreateEventActivity.*;
 import static com.example.kerrymbisset.valleybeta3.CreateEventActivity.EXTRA_REPLY_MILLIS;
@@ -45,6 +48,9 @@ public class List_Activity extends AppCompatActivity   {
 
     private static int FILTERLEVEL =0;
     private int ALL =1 ;
+    private boolean isLoggedIn;
+    private String loggedInName;
+    private int MEMBERACCESSLEVEL;
 
     public static int getFILTERLEVEL() {
         return FILTERLEVEL;
@@ -62,12 +68,14 @@ public class List_Activity extends AppCompatActivity   {
 
         choice = getIntent().getIntExtra(CHOICE,0);
 
+
+
+
         //Prep work for switch statment
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         // Set up the WordViewModel.
         mViewModel = ViewModelProviders.of(this).get(ValleyViewModel.class);
-
-
+        findOutMemberAccessLevel(findOutLogOn());
 
         switch (choice) {
             case EVENTFILTERSEL:
@@ -283,6 +291,11 @@ public class List_Activity extends AppCompatActivity   {
 
         // Floating action button setup
         FloatingActionButton fab = findViewById(R.id.fab1);
+        if (isLoggedIn){
+            fab.setVisibility(View.VISIBLE);
+        }else {
+            fab.setVisibility(View.GONE);
+        }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -294,6 +307,34 @@ public class List_Activity extends AppCompatActivity   {
 
     }
 
+    private void findOutMemberAccessLevel(boolean loggedIn) {
+        if (loggedIn){
+            mViewModel.getmAllMembers().observe(this, new Observer<List<MemberInfo>>() {
+                @Override
+                public void onChanged(@Nullable List<MemberInfo> memberInfos) {
+                    for (MemberInfo memberInfo : memberInfos){
+                        if (Objects.equals(memberInfo.getMemberName(), loggedInName)) {
+                            MEMBERACCESSLEVEL = memberInfo.getMemberAccessLevel();
+                            break;
+                        } else {
+                            MEMBERACCESSLEVEL =0 ;
+                        }
+
+                    }
+                }
+            });
+        }
+
+    }
+
+    private boolean findOutLogOn() {
+        SharedPreferences prefs =
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        isLoggedIn = prefs.getBoolean("login_check", false);
+        loggedInName = prefs.getString("member_name", "NotFilled");
+        return true;
+    }
 
 
     @Override

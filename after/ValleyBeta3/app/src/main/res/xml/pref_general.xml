@@ -1,35 +1,26 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditTextPreference
-        android:id="@+id/pref_email"
-        android:defaultValue="Email"
-        android:key="user_email_address"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_email" />
-    <EditTextPreference
-        android:id="@+id/pref_password"
-        android:defaultValue="Default value"
-        android:key="user_password"
-        android:password="true"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_password" />
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="example_switch"
-        android:summary="@string/pref_description_social_recommendations"
-        android:title="@string/pref_title_social_recommendations" />
-
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:focusedByDefault="false"
+        android:key="login_check"
+        android:persistent="false"
+        android:selectAllOnFocus="false"
+        android:title="@string/login_check_box_text"
+        android:visibility="invisible" />
     <EditTextPreference
         android:capitalize="words"
         android:defaultValue="@string/pref_default_display_name"
         android:inputType="textCapWords"
-        android:key="example_text"
+        android:key="member_name"
+        android:summary="@string/pref_loaded_name"
+        android:focusable="false"
+        android:visibility="invisible"
         android:maxLines="1"
-        android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/pref_title_display_name" />
 
