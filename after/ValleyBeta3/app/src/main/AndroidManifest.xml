@@ -52,9 +52,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.kerrymbisset.valleybeta3.OpeningScreen" />
         </activity>
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:name=".MemberRelated.MemberDetailActivity"
+            android:label="@string/title_activity_member_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MemberRelated.MembershipList"
+            android:label="@string/title_activity_membership_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import com.example.kerrymbisset.valleybeta3.Events;
 import com.example.kerrymbisset.valleybeta3.MemberFilter;
 import com.example.kerrymbisset.valleybeta3.MemberInfo;
 import com.example.kerrymbisset.valleybeta3.SGFilter;
+import com.example.kerrymbisset.valleybeta3.Small_Group_Info;
 
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class ValleyViewModel extends AndroidViewModel {
 
     private LiveData<List<MemberInfo>> mAllMembers;
 
+    private LiveData<List<Small_Group_Info>> mAllSmallGroups;
+
 
     public ValleyViewModel(@NonNull Application application) {
         super(application);
@@ -37,6 +40,7 @@ public class ValleyViewModel extends AndroidViewModel {
         mAllSGFilter = mRepository.getmAllSGFilters();
         mAllMemberFilters =mRepository.getmAllMemberFilters();
         mAllMembers =mRepository.getmAllMembers();
+        mAllSmallGroups =mRepository.getmAllSmallGroups();
     }
 
     public LiveData<List<Events>> getAllEvents() {

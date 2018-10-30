@@ -2,6 +2,8 @@ package com.example.kerrymbisset.valleybeta3;
 
 public interface AllConstants {
 
+    int NOTSUBSCRIBED =-1;
+
     ///Opening Screen and List Constants
     int EVENTFILTERSEL = 0;
     int EVENTS =1;
@@ -11,7 +13,12 @@ public interface AllConstants {
     int MEMBERS=5;
 
 
-
+    ///SG
+    int ALL =1;
+    int MENS=2;
+    int WOMENS=3;
+    int YOUTH=4;
+    int ADULT=5;
 
 
 

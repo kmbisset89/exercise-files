@@ -9,6 +9,7 @@ import com.example.kerrymbisset.valleybeta3.Events;
 import com.example.kerrymbisset.valleybeta3.MemberFilter;
 import com.example.kerrymbisset.valleybeta3.MemberInfo;
 import com.example.kerrymbisset.valleybeta3.SGFilter;
+import com.example.kerrymbisset.valleybeta3.Small_Group_Info;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class DataRepository {
     private LiveData<List<SGFilter>> mAllSGFilters;
     private LiveData<List<MemberFilter>> mAllMemberFilters;
     private LiveData<List<MemberInfo>> mAllMembers;
+    private LiveData<List<Small_Group_Info>> mAllSmallGroups;
     public static volatile DataRepository sInstance = null;
 
 
@@ -35,13 +37,14 @@ public class DataRepository {
                     mAllSGFilters = mDao.getAllSGFilters();
                     mAllMemberFilters = mDao.getAllMemberFilters();
                     mAllMembers =mDao.getAllMembers();
+                    mAllSmallGroups = mDao.getAllSmallGroups();
                 }
             }
         }
 
     }
 
-
+    //////ALL
 
     public LiveData<List<Events>> getmAllEvents() {
         return mAllEvents;
@@ -60,6 +63,10 @@ public class DataRepository {
     public LiveData<List<MemberInfo>> getmAllMembers() {
         return mAllMembers;
     }
+
+    public LiveData<List<Small_Group_Info>> getmAllSmallGroups() {return  mAllSmallGroups;}
+
+    ///////Certain
 
     public LiveData<List<Events>> getmCertainEvents(long eventsId) {
             return mDao.findSpecificEvent(eventsId);

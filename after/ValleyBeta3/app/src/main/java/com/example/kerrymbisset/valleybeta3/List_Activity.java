@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.kerrymbisset.valleybeta3.Database.ValleyViewModel;
 
+
 import java.util.List;
 import java.util.Objects;
 
@@ -42,6 +43,7 @@ public class List_Activity extends AppCompatActivity   {
     public static final String EXTRA_DATA_UPDATE_EVENT_MILLIS = "extra_event_millis_to_be_updated";
     public static final String EXTRA_DATA_UPDATE_EVENT_FILTER = "extra_event_filter_to_be_updated";
     public static final String EXTRA_DATA_ID = "extra_data_id";
+
 
     private ValleyViewModel mViewModel;
     private int choice;
@@ -200,17 +202,13 @@ public class List_Activity extends AppCompatActivity   {
                     }
                 });
 
-                smallGroupFilterRecyclerAdapter.setOnItemClickListener(new SmallGroupFilterRecyclerAdapter.ClickListener()  {
-
-                    @Override
-                    public void onItemClick(View v, int position) {
-                        SGFilter sgFilter = smallGroupFilterRecyclerAdapter.getSGAtPosition(position);
-                        Intent intent = new Intent(List_Activity.this, List_Activity.class);
-                        intent
-                                .putExtra(CHOICE, SMALLGROUP)
-                                .putExtra(FILTER, position+1);
-                        startActivity(intent);
-                    }
+                smallGroupFilterRecyclerAdapter.setOnItemClickListener((v, position) -> {
+                    SGFilter sgFilter = smallGroupFilterRecyclerAdapter.getSGAtPosition(position);
+                    Intent intent = new Intent(List_Activity.this, List_Activity.class);
+                    intent
+                            .putExtra(CHOICE, SMALLGROUP)
+                            .putExtra(FILTER, position+1);
+                    startActivity(intent);
                 });
 
 
@@ -258,6 +256,9 @@ public class List_Activity extends AppCompatActivity   {
                 if (FILTERLEVEL == ALL) {
                     // Get all the events from the database
                     // and associate them to the adapter.
+
+
+
                     mViewModel.getmAllMembers().observe(this, new Observer<List<MemberInfo>>() {
                         @Override
                         public void onChanged(@Nullable final List<MemberInfo> memberInfos) {

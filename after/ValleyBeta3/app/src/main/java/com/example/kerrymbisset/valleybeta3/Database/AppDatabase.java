@@ -9,11 +9,13 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import com.example.kerrymbisset.valleybeta3.AllConstants;
 import com.example.kerrymbisset.valleybeta3.EventFilter;
 import com.example.kerrymbisset.valleybeta3.Events;
 import com.example.kerrymbisset.valleybeta3.MemberFilter;
 import com.example.kerrymbisset.valleybeta3.MemberInfo;
 import com.example.kerrymbisset.valleybeta3.SGFilter;
+import com.example.kerrymbisset.valleybeta3.Small_Group_Info;
 
 import java.lang.reflect.Member;
 
@@ -21,9 +23,9 @@ import java.lang.reflect.Member;
  * Created by danielmalone on 10/28/17.
  */
 
-@Database(entities = {EventFilter.class, Events.class, SGFilter.class, MemberInfo.class, MemberFilter.class}, version = 11)
+@Database(entities = {EventFilter.class, Events.class, SGFilter.class, MemberInfo.class, MemberFilter.class, Small_Group_Info.class}, version = 12)
 
-public abstract class AppDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase implements AllConstants {
 
     public abstract ValleyDao valleyDao();
     private static volatile  AppDatabase INSTANCE;
@@ -52,7 +54,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 }
             };
 
-    private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
+    private static class PopulateDbAsync extends AsyncTask<Void, Void, Void>  implements AllConstants {
 
         private final ValleyDao mDao;
 
@@ -70,22 +72,46 @@ public abstract class AppDatabase extends RoomDatabase {
         private static MemberInfo[] memberInfos =
                 {  new MemberInfo( "Kerry Bisset", "kerry.bisset@gmail.com",
                         "2059488952", "Password",
-                        2, 3, 0),
+                        2, 3, 0, NOTSUBSCRIBED, NOTSUBSCRIBED, NOTSUBSCRIBED,
+                        NOTSUBSCRIBED, NOTSUBSCRIBED),
                         new MemberInfo( "William Plott", "w.plott@valley.com",
                                 "2059488952", "Password",
-                                5, 1, 0),
+                                5, 1, 0, NOTSUBSCRIBED, NOTSUBSCRIBED, NOTSUBSCRIBED,
+                                NOTSUBSCRIBED, NOTSUBSCRIBED),
                         new MemberInfo( "Kevin Palm", "k.palm@gmail.com",
                                 "2059488952", "Password",
-                                4, 3, 0),
+                                4, 3, 0, NOTSUBSCRIBED, NOTSUBSCRIBED, NOTSUBSCRIBED,
+                                NOTSUBSCRIBED, NOTSUBSCRIBED),
                         new MemberInfo( "Visitor Jim", "visitor.jim@gmail.com",
                                 "2059488952", "Password",
-                                1, 1, 0),
+                                1, 1, 0, NOTSUBSCRIBED, NOTSUBSCRIBED, NOTSUBSCRIBED,
+                                NOTSUBSCRIBED, NOTSUBSCRIBED),
                         new MemberInfo( "Daniel Stevenson", "d.stevenson@gmail.com",
-                                "2059488952", "Password",2, 2, 0),
+                                "2059488952", "Password",2, 2,
+                                0, NOTSUBSCRIBED, NOTSUBSCRIBED, NOTSUBSCRIBED,
+                                NOTSUBSCRIBED, NOTSUBSCRIBED),
                 };
 
 
-
+        private static Small_Group_Info[] small_group_infos =
+                {
+                        new Small_Group_Info("Coffee and Christ", "Raeley Stevenson",
+                                "Come join us for great coffee and even better fellowship",
+                                "Grounded Coffee on County Line Rd", WOMENS,"YES"
+                                ),
+                        new Small_Group_Info("Young Adults Small Group", "William Plott",
+                                "We go through books and stuff",
+                                "1100", ADULT,"YES"
+                        ),
+                        new Small_Group_Info("Youth Night Fellowship", "Thomas Newman",
+                                "Come join us for great coffee and even better fellowship",
+                                "Valley Presybetrian", YOUTH,"NO"
+                        ),
+                        new Small_Group_Info("Men's Small group", "Jim Radford",
+                                "Come join us for great coffee and even better fellowship",
+                                "Panera Bread at Bridgestreet", MENS,"YES"
+                        ),
+                };
 
 
         /*

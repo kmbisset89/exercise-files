@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "513360246954",
+    "firebase_url": "https://valleydatabase.firebaseio.com",
+    "project_id": "valleydatabase",
+    "storage_bucket": "valleydatabase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513360246954:android:5758fa8c366cd2a5",
+        "android_client_info": {
+          "package_name": "com.example.kerrymbisset.valleybeta3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513360246954-ba93fqer0knn5s51d1njlnvbpu324fuu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBr14rKPLc7BsugYmiBZPmXQJD-dBTk3UE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

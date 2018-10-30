@@ -7,7 +7,9 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity (tableName = "member")
-public class MemberInfo {
+public class MemberInfo implements AllConstants {
+
+
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
@@ -33,7 +35,24 @@ public class MemberInfo {
     @ColumnInfo(name = "member_logged_on")
     private int memberLoggedOn =0;
 
-    public MemberInfo(String memberName, String memberEmail, String memberPhone, String memberPassword, int memberSort, int memberAccessLevel, int memberLoggedOn) {
+    @ColumnInfo(name = "sub_1")
+    private int subscribeToSG1 =NOTSUBSCRIBED;
+
+    @ColumnInfo(name = "sub_2")
+    private int subscribeToSG2 =NOTSUBSCRIBED;
+
+    @ColumnInfo(name = "sub_3")
+    private int subscribeToSG3 =NOTSUBSCRIBED;
+
+    @ColumnInfo(name = "sub_4")
+    private int subscribeToSG4 =NOTSUBSCRIBED;
+
+    @ColumnInfo(name = "sub_5")
+    private int subscribeToSG5 =NOTSUBSCRIBED;
+
+    public MemberInfo(String memberName, String memberEmail, String memberPhone,
+                      String memberPassword, int memberSort, int memberAccessLevel, int memberLoggedOn,
+                      int subscribeToSG1, int subscribeToSG2, int subscribeToSG3, int subscribeToSG4, int subscribeToSG5) {
         this.memberName = memberName;
         this.memberEmail = memberEmail;
         this.memberPhone = memberPhone;
@@ -41,10 +60,17 @@ public class MemberInfo {
         this.memberSort = memberSort;
         this.memberAccessLevel = memberAccessLevel;
         this.memberLoggedOn = memberLoggedOn;
+        this.subscribeToSG1=subscribeToSG1;
+        this.subscribeToSG2=subscribeToSG2;
+        this.subscribeToSG3=subscribeToSG3;
+        this.subscribeToSG4=subscribeToSG4;
+        this.subscribeToSG5=subscribeToSG5;
     }
 
     @Ignore
-    public MemberInfo(@NonNull int id, String memberName, String memberEmail, String memberPhone, String memberPassword, int memberSort, int memberAccessLevel, int memberLoggedOn) {
+    public MemberInfo(@NonNull int id, String memberName, String memberEmail, String memberPhone, String memberPassword,
+                      int memberSort, int memberAccessLevel, int memberLoggedOn,
+                      int subscribeToSG1, int subscribeToSG2, int subscribeToSG3, int subscribeToSG4, int subscribeToSG5) {
         this.id = id;
         this.memberName = memberName;
         this.memberEmail = memberEmail;
@@ -53,6 +79,11 @@ public class MemberInfo {
         this.memberSort = memberSort;
         this.memberAccessLevel = memberAccessLevel;
         this.memberLoggedOn = memberLoggedOn;
+        this.subscribeToSG1=subscribeToSG1;
+        this.subscribeToSG2=subscribeToSG2;
+        this.subscribeToSG3=subscribeToSG3;
+        this.subscribeToSG4=subscribeToSG4;
+        this.subscribeToSG5=subscribeToSG5;
     }
 
     @NonNull
@@ -118,5 +149,45 @@ public class MemberInfo {
 
     public void setMemberLoggedOn(int memberLoggedOn) {
         this.memberLoggedOn = memberLoggedOn;
+    }
+
+    public int getSubscribeToSG1() {
+        return subscribeToSG1;
+    }
+
+    public void setSubscribeToSG1(int subscribeToSG1) {
+        this.subscribeToSG1 = subscribeToSG1;
+    }
+
+    public int getSubscribeToSG2() {
+        return subscribeToSG2;
+    }
+
+    public void setSubscribeToSG2(int subscribeToSG2) {
+        this.subscribeToSG2 = subscribeToSG2;
+    }
+
+    public int getSubscribeToSG3() {
+        return subscribeToSG3;
+    }
+
+    public void setSubscribeToSG3(int subscribeToSG3) {
+        this.subscribeToSG3 = subscribeToSG3;
+    }
+
+    public int getSubscribeToSG4() {
+        return subscribeToSG4;
+    }
+
+    public void setSubscribeToSG4(int subscribeToSG4) {
+        this.subscribeToSG4 = subscribeToSG4;
+    }
+
+    public int getSubscribeToSG5() {
+        return subscribeToSG5;
+    }
+
+    public void setSubscribeToSG5(int subscribeToSG5) {
+        this.subscribeToSG5 = subscribeToSG5;
     }
 }

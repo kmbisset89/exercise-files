@@ -13,6 +13,7 @@ import com.example.kerrymbisset.valleybeta3.Events;
 import com.example.kerrymbisset.valleybeta3.MemberFilter;
 import com.example.kerrymbisset.valleybeta3.MemberInfo;
 import com.example.kerrymbisset.valleybeta3.SGFilter;
+import com.example.kerrymbisset.valleybeta3.Small_Group_Info;
 
 import java.util.List;
 
@@ -97,6 +98,21 @@ public interface ValleyDao {
     void insertNewMember(MemberInfo member);
 
     @Delete
-    void deleteEvent(MemberInfo member);
+    void deleteMember(MemberInfo member);
+
+    ///////Small Groups///////////
+
+    @Query("SELECT * FROM small_group ORDER BY small_group_title ASC")
+    LiveData<List<Small_Group_Info>> getAllSmallGroups();
+
+    @Query("SELECT * FROM small_group WHERE small_group_filter = :small_group_filter")
+    LiveData<List<Small_Group_Info>> findSpecificSmallGroups(long small_group_filter);
+
+    @Query("SELECT * FROM small_group LIMIT 1")
+    Small_Group_Info[] getAnySmallGroup();
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertNewSmallGroup(Small_Group_Info small_group_info);
+
 
 }
