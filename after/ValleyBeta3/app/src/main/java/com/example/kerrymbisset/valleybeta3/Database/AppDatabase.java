@@ -11,9 +11,8 @@ import android.support.annotation.NonNull;
 
 import com.example.kerrymbisset.valleybeta3.AllConstants;
 import com.example.kerrymbisset.valleybeta3.EventFilter;
-import com.example.kerrymbisset.valleybeta3.Events;
 import com.example.kerrymbisset.valleybeta3.MemberFilter;
-import com.example.kerrymbisset.valleybeta3.MemberInfo;
+
 import com.example.kerrymbisset.valleybeta3.SGFilter;
 import com.example.kerrymbisset.valleybeta3.Small_Group_Info;
 
@@ -23,7 +22,7 @@ import java.lang.reflect.Member;
  * Created by danielmalone on 10/28/17.
  */
 
-@Database(entities = {EventFilter.class, Events.class, SGFilter.class, MemberInfo.class, MemberFilter.class, Small_Group_Info.class}, version = 12)
+@Database(entities = {EventFilter.class, SGFilter.class, MemberFilter.class, Small_Group_Info.class}, version = 13)
 
 public abstract class AppDatabase extends RoomDatabase implements AllConstants {
 
@@ -58,40 +57,6 @@ public abstract class AppDatabase extends RoomDatabase implements AllConstants {
 
         private final ValleyDao mDao;
 
-        // Initial Event data set
-        private static Events [] events =
-                {  new Events( "Sunday Church", "Sunday October 4th, 2018",
-                        "10:45am", "Continuing our journey", 1538667900000l, 2),
-                        new Events( "Small Group", "Monday November 5th, 2018",
-                                "6:30am", "Finances", 1541464200000l, 3),
-                        new Events( "Youth Bonfire", "Sunday October 21st, 2018",
-                                "5:00pm", "Continuing our journey", 1540418400000l, 4)
-                };
-
-
-        private static MemberInfo[] memberInfos =
-                {  new MemberInfo( "Kerry Bisset", "kerry.bisset@gmail.com",
-                        "2059488952", "Password",
-                        2, 3, 0, NOTSUBSCRIBED, NOTSUBSCRIBED, NOTSUBSCRIBED,
-                        NOTSUBSCRIBED, NOTSUBSCRIBED),
-                        new MemberInfo( "William Plott", "w.plott@valley.com",
-                                "2059488952", "Password",
-                                5, 1, 0, NOTSUBSCRIBED, NOTSUBSCRIBED, NOTSUBSCRIBED,
-                                NOTSUBSCRIBED, NOTSUBSCRIBED),
-                        new MemberInfo( "Kevin Palm", "k.palm@gmail.com",
-                                "2059488952", "Password",
-                                4, 3, 0, NOTSUBSCRIBED, NOTSUBSCRIBED, NOTSUBSCRIBED,
-                                NOTSUBSCRIBED, NOTSUBSCRIBED),
-                        new MemberInfo( "Visitor Jim", "visitor.jim@gmail.com",
-                                "2059488952", "Password",
-                                1, 1, 0, NOTSUBSCRIBED, NOTSUBSCRIBED, NOTSUBSCRIBED,
-                                NOTSUBSCRIBED, NOTSUBSCRIBED),
-                        new MemberInfo( "Daniel Stevenson", "d.stevenson@gmail.com",
-                                "2059488952", "Password",2, 2,
-                                0, NOTSUBSCRIBED, NOTSUBSCRIBED, NOTSUBSCRIBED,
-                                NOTSUBSCRIBED, NOTSUBSCRIBED),
-                };
-
 
         private static Small_Group_Info[] small_group_infos =
                 {
@@ -118,8 +83,8 @@ public abstract class AppDatabase extends RoomDatabase implements AllConstants {
         Order matters with filters if you adjust this list be sure to add/update the EventsConstants Interface
         */
         private static EventFilter [] eventFilters=
-                { new EventFilter("All"), new EventFilter("Church"),
-                        new EventFilter("Small Group"), new EventFilter("Youth"), new EventFilter("Adults")
+                { new EventFilter("All"), new EventFilter("CHURCH"),
+                        new EventFilter("SMALL GROUP"), new EventFilter("YOUTH"), new EventFilter("ADULT")
 
                 };
 
@@ -145,11 +110,7 @@ public abstract class AppDatabase extends RoomDatabase implements AllConstants {
         @Override
         protected Void doInBackground(final Void... params) {
             // If we have no words, then create the initial list of words.
-            if (mDao.getAnyEvent().length < 1) {
-                for (int i = 0; i <= events.length - 1; i++) {
-                    mDao.insertNewEvents(events[i]);
-                }
-            }
+
 
             if (mDao.getAnyEventFilter().length < 1) {
                 for (int i = 0; i <= eventFilters.length - 1; i++) {
@@ -169,11 +130,7 @@ public abstract class AppDatabase extends RoomDatabase implements AllConstants {
                 }
             }
 
-            if (mDao.getAnyMember().length < 1) {
-                for (int i = 0; i <= memberInfos.length - 1; i++) {
-                    mDao.insertNewMember(memberInfos[i]);
-                }
-            }
+
             return null;
         }
     }

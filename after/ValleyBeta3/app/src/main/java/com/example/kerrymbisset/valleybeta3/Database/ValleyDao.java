@@ -9,9 +9,8 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.example.kerrymbisset.valleybeta3.EventFilter;
-import com.example.kerrymbisset.valleybeta3.Events;
+
 import com.example.kerrymbisset.valleybeta3.MemberFilter;
-import com.example.kerrymbisset.valleybeta3.MemberInfo;
 import com.example.kerrymbisset.valleybeta3.SGFilter;
 import com.example.kerrymbisset.valleybeta3.Small_Group_Info;
 
@@ -60,45 +59,6 @@ public interface ValleyDao {
 
     ////////Events/////////
 
-    @Query("SELECT * FROM events ORDER BY event_millis ASC")
-    LiveData<List<Events>> getAllEvents();
-
-    @Query("SELECT * FROM events WHERE event_filter = :event_id")
-    LiveData<List<Events>> findSpecificEvent(long event_id);
-
-    @Query("SELECT * FROM events LIMIT 1")
-    Events[] getAnyEvent();
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertNewEvents(Events events);
-
-    @Delete
-    void deleteEvent(Events events);
-
-    @Query("DELETE FROM events")
-    void deleteAllEvents();
-
-    @Update
-    void update(Events... events);
-
-    /////////Members//////////
-    @Query("SELECT * FROM member ORDER BY member_name ASC")
-    LiveData<List<MemberInfo>> getAllMembers();
-
-    @Query("SELECT * FROM member WHERE member_sort = :member_sort")
-    LiveData<List<MemberInfo>> findSpecificMembers(long member_sort);
-
-    @Query("SELECT * FROM member WHERE member_email = :member_email")
-    LiveData<List<MemberInfo>> checkEmail(String member_email);
-
-    @Query("SELECT * FROM member LIMIT 1")
-    MemberInfo[] getAnyMember();
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertNewMember(MemberInfo member);
-
-    @Delete
-    void deleteMember(MemberInfo member);
 
     ///////Small Groups///////////
 

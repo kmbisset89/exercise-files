@@ -23,10 +23,12 @@ public interface AllConstants {
 
 
     ///EventConstants
-    int CHURCHFILTER = 2;
-    int SMALLGROUPFILTER =3;
-    int YOUTHFILTER=4;
-    int ADULTFILTER=5;
+    String CHURCHFILTER = "CHURCH";
+    String SMALLGROUPFILTER = "SMALL GROUP";
+    String YOUTHFILTER = "YOUTH";
+    String ADULTFILTER = "ADULT";
+    String MENSFILTER = "MENS";
+    String WOMENFILTER = "WOMENS";
 
 
 

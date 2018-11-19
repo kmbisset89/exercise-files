@@ -1,4 +1,4 @@
-package com.example.kerrymbisset.valleybeta3.MemberRelated;
+package com.example.kerrymbisset.valleybeta3.EventRelated;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,17 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.kerrymbisset.valleybeta3.List_Activity;
-
-
+import com.example.kerrymbisset.valleybeta3.MemberRelated.MemberDetailActivity;
 import com.example.kerrymbisset.valleybeta3.R;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import static com.example.kerrymbisset.valleybeta3.MemberRelated.MemberDetailActivity.MEMBERNAME;
 
-public class MemberInfoAdapter extends RecyclerView.Adapter<MemberInfoAdapter.MemberViewHolder> {
+public class RSVPYesAdapter extends RecyclerView.Adapter<RSVPYesAdapter.MemberViewHolder> {
 
     private final ArrayList<String> mMemberList;
     private final LayoutInflater mInflater;
@@ -45,9 +42,9 @@ public class MemberInfoAdapter extends RecyclerView.Adapter<MemberInfoAdapter.Me
         return mMemberList.size();
     }
 
-    class MemberViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MemberViewHolder extends RecyclerView.ViewHolder {
         public final TextView MemberItemView;
-        final MemberInfoAdapter mAdapter;
+        final RSVPYesAdapter mAdapter;
 
         /**
          * Creates a new custom view holder to hold the view to display in
@@ -57,26 +54,15 @@ public class MemberInfoAdapter extends RecyclerView.Adapter<MemberInfoAdapter.Me
          * @param adapter  The adapter that manages the the data and views
          *                 for the RecyclerView.
          */
-        public MemberViewHolder(View itemView, MemberInfoAdapter adapter) {
+        public MemberViewHolder(View itemView, RSVPYesAdapter adapter) {
             super(itemView);
             MemberItemView = itemView.findViewById(R.id.member_name);
             this.mAdapter = adapter;
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-            // Get the position of the item that was clicked.
-            int mPosition = getLayoutPosition();
-
-            Intent intent = new Intent(mContext, MemberDetailActivity.class);
-                intent.putExtra(MEMBERNAME, mMemberList.get(mPosition));
-            mContext.startActivity(intent);
-
-        }
     }
 
-    public MemberInfoAdapter(Context context, ArrayList<String> memberList) {
+    public RSVPYesAdapter(Context context, ArrayList<String> memberList) {
         mContext= context;
         mInflater = LayoutInflater.from(context);
         this.mMemberList = memberList;

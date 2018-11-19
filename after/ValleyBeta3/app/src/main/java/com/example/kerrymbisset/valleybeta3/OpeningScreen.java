@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.example.kerrymbisset.valleybeta3.MemberRelated.MembershipList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import static com.example.kerrymbisset.valleybeta3.List_Activity.CHOICE;
 
@@ -25,7 +27,7 @@ public class OpeningScreen extends AppCompatActivity
 
     //Firebase
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private static final String TAG = "OpeningScreen";
+    private final String TAG = getClass().getSimpleName();;
     private boolean ISLOGGEDIN;
     private String status = null;
     private MenuItem loggedout;
@@ -42,14 +44,17 @@ public class OpeningScreen extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
 
 
     }

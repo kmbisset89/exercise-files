@@ -28,23 +28,6 @@
             android:name=".List_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CreateEventActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Event_Details_Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SGDisplay_Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Userlist"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".CreateUser"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SGRecyclerAdapter" />
-        <activity android:name=".EFilterRecyclerAdapter" />
-        <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".OpeningScreen">
@@ -67,6 +50,30 @@
         <activity
             android:name=".MemberRelated.MembershipList"
             android:label="@string/title_activity_membership_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EventRelated.EventList"
+            android:label="@string/title_activity_membership_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EventRelated.CreateEventActivity"
+            android:label="@string/title_activity_membership_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EventRelated.Event_Details"
+            android:label="@string/title_activity_event__details"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SmallGroupRelated.SmallGroupList"
+            android:label="@string/title_activity_small_group_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SmallGroupRelated.CreateSmallGroupActivity"
+            android:label="@string/title_activity_create_small_group"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SmallGroupRelated.SmallGroupDetails"
+            android:label="@string/title_activity_small_group_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

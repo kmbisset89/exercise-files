@@ -146,6 +146,9 @@
     <!-- DATABASE STRINGS  -->
 
     <string name="dbnode_users">users</string>
+    <string name="dbnode_events">events</string>
+    <string name="dbnode_reservation">reservation</string>
+    <string name="dbnode_small_groups">small_groups</string>
     <string name="show_email">Show email in directory</string>
     <string name="show_phone">Show phone in directory</string>
     <string name="show_address">Show address in directory</string>
@@ -155,6 +158,7 @@
     <string name="field_chatroom_name">chatroom_name</string>
     <string name="field_creator_id">creator_id</string>
     <string name="field_security_level">security_level</string>
+
     <string name="field_email">email</string>
     <string name="field_name">name</string>
     <string name="field_phone">phone</string>
@@ -167,10 +171,70 @@
     <string name="field_show_email">show_email</string>
     <string name="field_show_phone">show_phone</string>
     <string name="field_show_address">show_address</string>
+    <string name="field_subscription1">small_group_subscription1</string>
+    <string name="field_subscription2">small_group_subscription2</string>
+    <string name="field_subscription3">small_group_subscription3</string>
+    <string name="field_subscription4">small_group_subscription4</string>
+    <string name="field_subscription5">small_group_subscription5</string>
+
+
+    <string name="field_event_title">event_title</string>
+    <string name="field_event_date">event_date</string>
+    <string name="field_event_time">event_time</string>
+    <string name="field_event_desc">event_desc</string>
+    <string name="field_event_millis">event_millis</string>
+    <string name="field_event_filter">event_filter</string>
+    <string name="field_event_group">group_number</string>
+    <string name="field_event_key">event_key</string>
+    <string name="field_event_creator">event_create_by</string>
+    <string name="field_event_location">event_location</string>
+
+    <string name="field_reservation_member_number">member_number</string>
+    <string name="field_reservation_event_key">event_key</string>
+    <string name="field_reservation_member_name">member_name</string>
+    <string name="field_reservation_reply">reply</string>
+
+
+
+    <string name="field_small_group_name">sg_title</string>
+    <string name="field_small_group_poc">sg_point_of_contact</string>
+    <string name="field_small_group_desc">sg_desc</string>
+    <string name="field_small_group_meeting">sg_meeting_place</string>
+    <string name="field_small_group_number">sg_group_number</string>
+    <string name="field_small_group_key">sg_key</string>
+    <string name="field_small_group_created_by">sg_created_by</string>
+    <string name="field_small_group_filter">sg_filter</string>
+
+
     <string name="answer_yes">YES</string>
     <string name="answer_no">NO</string>
-    <string name="title_activity_member_detail">MemberDetailActivity</string>
-    <string name="title_activity_membership_list">MembershipList</string>
+    <string name="title_activity_member_detail">Member Details</string>
+    <string name="title_activity_membership_list">Directory</string>
+    <string name="title_activity_events_list">Events</string>
+    <string name="title_activity_event__details">Event Details</string>
+    <string name="event_title">Event Title</string>
+    <string name="save_event">Save the event?</string>
+    <string name="title_activity_small_group_list">SmallGroupList</string>
+    <string name="title_activity_create_small_group">CreateSmallGroupActivity</string>
+    <string name="small_group_poc">Point of Contact</string>
+    <string name="hint_name_of_sg">Name of Small Group</string>
+    <string name="hint_short_desc_sg">Description of Small Group</string>
+    <string name="hint_sg_meeting_place">Typical meeting place</string>
+    <string name="radio_sg_mens">Mens</string>
+    <string name="radio_sg_womens">Womens</string>
+    <string name="radio_sg_youth">Youth</string>
+    <string name="radio_filter_adult">Adult</string>
+    <string name="create_small_group">Create this small group</string>
+    <string name="title_activity_small_group_details">SmallGroupDetails</string>
+    <string name="subscribe_button">Subscribe</string>
+    <string name="small_group_members">Members</string>
+    <string name="RSVP">RSVP</string>
+    <string name="rsvp_yes">Going</string>
+    <string name="rsvp_no">Not Going</string>
+    <string name="decline">Decline</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

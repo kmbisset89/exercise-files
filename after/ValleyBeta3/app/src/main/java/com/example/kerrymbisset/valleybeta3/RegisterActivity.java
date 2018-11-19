@@ -14,12 +14,16 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.kerrymbisset.valleybeta3.EventRelated.CreateEventActivity;
+import com.example.kerrymbisset.valleybeta3.models.Events;
 import com.example.kerrymbisset.valleybeta3.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.UUID;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -125,7 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
                         user.setCity("");
                         user.setState("");
                         user.setZip("");
-                        user.setMember_filter("Member");
+                        user.setMember_filter("REGISTERED");
                         user.setSmall_group_subscription1("");
                         user.setSmall_group_subscription2("");
                         user.setSmall_group_subscription3("");
@@ -148,8 +152,6 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this, "Database Problem ",Toast.LENGTH_SHORT);
 
                                 });
-
-
 
 
 

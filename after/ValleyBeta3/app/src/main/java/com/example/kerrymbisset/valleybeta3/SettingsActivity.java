@@ -51,6 +51,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 
 public class SettingsActivity extends AppCompatActivity implements
@@ -80,6 +81,7 @@ public class SettingsActivity extends AppCompatActivity implements
     private Bitmap mSelectedImageBitmap;
     private byte[] mBytes;
     private double progress;
+    private Uri firebaseURL;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -164,6 +166,8 @@ public class SettingsActivity extends AppCompatActivity implements
                 /*
                 ------ Change Name -----
                  */
+
+
 
 
                 if (!mName.getText().toString().equals("")) {
@@ -264,6 +268,10 @@ public class SettingsActivity extends AppCompatActivity implements
                 }else if(mSelectedImageBitmap  != null){
                     uploadNewPhoto(mSelectedImageBitmap);
                 }
+
+
+
+
 
 
                 Toast.makeText(SettingsActivity.this, "Changes Saved", Toast.LENGTH_SHORT).show();
@@ -452,8 +460,18 @@ public class SettingsActivity extends AppCompatActivity implements
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    //Now insert the download url into the firebase database
-                    Uri firebaseURL = taskSnapshot.getDownloadUrl();
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                    StorageReference dateRef = storageRef.child(filePaths.FIREBASE_IMAGE_STORAGE + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid()
+                            + "/profile_image");
+                    dateRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                    {
+                        @Override
+                        public void onSuccess(Uri downloadUrl)
+                        {
+                            firebaseURL = downloadUrl;
+                        }
+                    });//Now insert the download url into the firebase database
+
                     Toast.makeText(SettingsActivity.this, "Upload Success", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onSuccess: firebase download url : " + firebaseURL.toString());
                     FirebaseDatabase.getInstance().getReference()
@@ -717,26 +735,23 @@ public class SettingsActivity extends AppCompatActivity implements
     private void setupFirebaseAuth() {
         Log.d(TAG, "setupFirebaseAuth: started.");
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    //toastMessage("Successfully signed in with: " + user.getEmail());
+        mAuthListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                // User is signed in
+                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                //toastMessage("Successfully signed in with: " + user.getEmail());
 
 
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    Toast.makeText(SettingsActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                // ...
+            } else {
+                // User is signed out
+                Log.d(TAG, "onAuthStateChanged:signed_out");
+                Toast.makeText(SettingsActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
+            // ...
         };
     }
 

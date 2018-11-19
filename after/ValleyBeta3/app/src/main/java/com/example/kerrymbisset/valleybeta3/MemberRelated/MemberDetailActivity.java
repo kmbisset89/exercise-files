@@ -34,10 +34,13 @@ public class MemberDetailActivity extends AppCompatActivity {
     private ImageButton mCall;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "MemberDetailActivity";
+    public static final String MEMBERNAME = "com.example.kerrymbisset.valleybeta3.MemberRelated.MEMBERNAME";
+    private String intentName;
 
     @Override
     protected void onResume() {
         super.onResume();
+        intentName = getIntent().getStringExtra(MEMBERNAME);
         mName = findViewById(R.id.member_name_detail);
         mPhone = findViewById(R.id.member_phone_detail);
         mEmail = findViewById(R.id.member_email_detail);
@@ -50,7 +53,7 @@ public class MemberDetailActivity extends AppCompatActivity {
         mConPhone = findViewById(R.id.constant_phone);
         mConAddress = findViewById(R.id.constant_address);
         mCall = findViewById(R.id.call);
-        getUserAccountData();
+       getUserAccountData();
     }
 
     @Override
@@ -59,6 +62,7 @@ public class MemberDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_member_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        intentName = getIntent().getStringExtra(MEMBERNAME);
 
         mName = findViewById(R.id.member_name_detail);
         mPhone = findViewById(R.id.member_phone_detail);
@@ -143,7 +147,8 @@ public class MemberDetailActivity extends AppCompatActivity {
 //                           + singleSnapshot.getValue(User.class).toString());
                     User user = singleSnapshot.getValue(User.class);
 
-                    if (user.getName().equals("Kerry Bisset")) {
+                    String intentName = getIntent().getStringExtra(MEMBERNAME);
+                    if (user.getName().equals(intentName)){
                         mName.setText(user.getName());
                         mEmail.setText(user.getEmail());
                         mPhone.setText(user.getPhone());
