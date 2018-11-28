@@ -41,6 +41,7 @@ public class SmallGroupDetails extends AppCompatActivity implements View.OnClick
     private ArrayList<String> mEmptySlot = new ArrayList<>();
     private String TAG = "SmallGroupDetail";
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private boolean loggedIn = false;
 
 
     @Override
@@ -50,8 +51,9 @@ public class SmallGroupDetails extends AppCompatActivity implements View.OnClick
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupFirebaseAuth();
-        checkSubscriptions();
-
+        if (loggedIn) {
+            checkSubscriptions();
+        }
         mSGDetailTitle = findViewById(R.id.Small_Group_Title);
         mSGDetailPOC = findViewById(R.id.sg_detail_POC);
         mSGDetailDesc = findViewById(R.id.sg_detail_desc);
@@ -63,12 +65,22 @@ public class SmallGroupDetails extends AppCompatActivity implements View.OnClick
 
 
         getSmallGroupData();
+        if (loggedIn) {
+            mSubscribe.setOnClickListener(V -> {
+                addSubscription();
+            });
+            
+            mMemeber.setOnClickListener(v -> {
+                showMember();
+            });
 
-        mSubscribe.setOnClickListener(V -> {
+        } else {
+            mSubscribe.setVisibility(View.GONE);
+            mMemeber.setVisibility(View.GONE);
+        }
+    }
 
-            addSubscription();
-        });
-
+    private void showMember() {
     }
 
     private void addSubscription() {
@@ -76,7 +88,7 @@ public class SmallGroupDetails extends AppCompatActivity implements View.OnClick
         boolean notAlreadySubscribed = true;
         for (int i = 0; i < 5; i++) {
 
-            if(mSubscriptionNumbers.get(i) != "" && mSubscriptionNumbers.get(i).equals(mGroupNumber)){
+            if (mSubscriptionNumbers.get(i) != "" && mSubscriptionNumbers.get(i).equals(mGroupNumber)) {
                 notAlreadySubscribed = false;
                 Toast.makeText(getBaseContext(), "Already subscribed to this small group", Toast.LENGTH_SHORT).show();
                 break;
@@ -101,8 +113,8 @@ public class SmallGroupDetails extends AppCompatActivity implements View.OnClick
 
 
     private String findSubscriptionSpot(int i) {
-       String choice;
-        switch (i){
+        String choice;
+        switch (i) {
             case 0:
                 choice = getString(R.string.field_subscription1);
                 break;
@@ -118,14 +130,12 @@ public class SmallGroupDetails extends AppCompatActivity implements View.OnClick
             case 4:
                 choice = getString(R.string.field_subscription5);
                 break;
-                default:
-                    choice = "";
+            default:
+                choice = "";
         }
 
         return choice;
     }
-
-
 
 
     private void checkSubscriptions() {
@@ -226,10 +236,11 @@ public class SmallGroupDetails extends AppCompatActivity implements View.OnClick
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     //toastMessage("Successfully signed in with: " + user.getEmail());
+                    loggedIn = true;
 
 
                 } else {
-
+                    loggedIn = false;
                 }
                 // ...
             }

@@ -1,5 +1,7 @@
 package com.example.kerrymbisset.valleybeta3.EventRelated;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -7,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationBuilderWithBuilderAccessor;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -51,11 +55,18 @@ public class Event_Details extends AppCompatActivity {
     private TextView mEventDesc;
     private TextView mEventLocation;
     private RSVPYesFragment mRSPVYesFragment;
+    private RSVPNoFragment mRSVPNoFragment;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
-    private String mReservationKey;
     private Bundle args;
+    private Bundle noArgs;
     private String mMemberName;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private long mEventMillis;
+    private String mStringEventTitle;
+    private String mStringEventLocation;
+    private boolean loggedIn = false;
+    private Button rsvp;
+    private Button decline;
 
 
     @Override
@@ -85,88 +96,105 @@ public class Event_Details extends AppCompatActivity {
         mEventTime = findViewById(R.id.event_detail_time);
         mEventDesc = findViewById(R.id.event_detail_desc);
         mEventLocation = findViewById(R.id.event_detail_location);
-
+        decline = findViewById(R.id.Decline);
+        rsvp = findViewById(R.id.RSVP);
         mEventKey = getIntent().getStringExtra(EVENTKEY);
 
         args = new Bundle();
         args.putString("EventKey", mEventKey);
 
+        loadFragments();
+
+        if (loggedIn) {
+
+            rsvp.setOnClickListener(v -> {
+                boolean answer = true;
+                addToList(answer);
+                getSupportFragmentManager().beginTransaction().remove(mRSPVYesFragment).remove(mRSVPNoFragment).commit();
+                loadFragments();
+
+
+            });
+        }
+
+        if (loggedIn) {
+
+            decline.setOnClickListener(v -> {
+                boolean answer = false;
+                addToList(answer);
+                getSupportFragmentManager().beginTransaction().remove(mRSPVYesFragment).remove(mRSVPNoFragment).commit();
+
+                loadFragments();
+//
+            });
+        }
+
+        if (!loggedIn) {
+            rsvp.setVisibility(View.GONE);
+            decline.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void loadFragments() {
         mRSPVYesFragment = new RSVPYesFragment();
         mRSPVYesFragment.setArguments(args);
 
+        noArgs = new Bundle();
+        noArgs.putString("EventKey", mEventKey);
+
+        mRSVPNoFragment = new RSVPNoFragment();
+        mRSVPNoFragment.setArguments(args);
+
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.frame_rsvp_yes, mRSPVYesFragment, "home");
+        transaction.add(R.id.frame_rsvp_yes, mRSPVYesFragment, "yes")
+                .commit();
 
-        transaction.commit();
 
+        FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
+        transaction2.add(R.id.frame_rsvp_no, mRSVPNoFragment, "no")
+                .commit();
 
-        Button RSVP = findViewById(R.id.RSVP);
-        RSVP.setOnClickListener(v -> {
-            boolean answer = true;
-            addToList(answer);
-
-            args = new Bundle();
-            args.putString("EventKey", mEventKey);
-
-            mRSPVYesFragment = new RSVPYesFragment();
-            mRSPVYesFragment.setArguments(args);
-
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.detach(mRSPVYesFragment)
-                    .add(R.id.frame_rsvp_yes, mRSPVYesFragment, "home")
-                    .attach(mRSPVYesFragment).commit();
-
-        });
-
-        Button decline = findViewById(R.id.Decline);
-        decline.setOnClickListener(v -> {
-            boolean answer = false;
-            addToList(answer);
-
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.detach(mRSPVYesFragment).attach(mRSPVYesFragment).commit();
-        });
 
     }
 
     private void addToList(boolean answer) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        mReservationKey = UUID.randomUUID().toString();
+
 
         reference.child(getString(R.string.dbnode_reservation))
                 .child(mEventKey)
-                .child(mReservationKey)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(getString(R.string.field_reservation_member_number))
                 .setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         reference.child(getString(R.string.dbnode_reservation))
                 .child(mEventKey)
-                .child(mReservationKey)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(getString(R.string.field_reservation_event_key))
                 .setValue(mEventKey);
-
 
 
         if (answer) {
 
             reference.child(getString(R.string.dbnode_reservation))
                     .child(mEventKey)
-                    .child(mReservationKey)
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child(getString(R.string.field_reservation_reply))
                     .setValue("YES");
         } else {
             reference.child(getString(R.string.dbnode_reservation))
                     .child(mEventKey)
-                    .child(mReservationKey)
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child(getString(R.string.field_reservation_reply))
                     .setValue("NO");
         }
 
         reference.child(getString(R.string.dbnode_reservation))
                 .child(mEventKey)
-                .child(mReservationKey)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(getString(R.string.field_reservation_member_name))
                 .setValue(mMemberName);
 
@@ -200,7 +228,9 @@ public class Event_Details extends AppCompatActivity {
                         mEventTime.setText(events.getEvent_time());
                         mEventDesc.setText(events.getEvent_desc());
                         mEventLocation.setText(events.getEvent_location());
-
+                        mEventMillis = Long.parseLong(events.getEvent_millis());
+                        mStringEventTitle = events.getEvent_title();
+                        mStringEventLocation = events.getEvent_location();
 
                     }
                 }
@@ -212,32 +242,35 @@ public class Event_Details extends AppCompatActivity {
             }
         });
 
-        Query query2 = reference.child(getString(R.string.dbnode_users))
-                .orderByKey()
-                .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        query2.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        if (loggedIn) {
+            Query query2 = reference.child(getString(R.string.dbnode_users))
+                    .orderByKey()
+                    .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                //this loop will return a single result
-                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    //this loop will return a single result
+                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 //                    Log.d(TAG, "onDataChange: (QUERY METHOD 1) found user: "
 //                           + singleSnapshot.getValue(User.class).toString());
-                    User user = singleSnapshot.getValue(User.class);
+                        User user = singleSnapshot.getValue(User.class);
 
-                    if (user.getUser_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                       mMemberName = user.getName();
+                        if (user.getUser_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                            mMemberName = user.getName();
+                        }
+
+
                     }
+                }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
-            }
+            });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        }
 
     }
 
@@ -259,14 +292,14 @@ public class Event_Details extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.addtocalendar) {
 
-                Intent intent = new Intent(Intent.ACTION_EDIT)
-                        .setType("vnd.android.cursor.item/event");
-                        intent.putExtra(CalendarContract.Events.TITLE, mEventTitle.toString())
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, mEventLocation.toString())
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, mEventTime.toString());
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
+            Intent intent = new Intent(Intent.ACTION_EDIT)
+                    .setType("vnd.android.cursor.item/event");
+            intent.putExtra(CalendarContract.Events.TITLE, mEventTitle.getText())
+                    .putExtra(CalendarContract.Events.EVENT_LOCATION, mEventLocation.getText())
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, mEventMillis );
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
 
             return true;
         }
@@ -287,10 +320,10 @@ public class Event_Details extends AppCompatActivity {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     //toastMessage("Successfully signed in with: " + user.getEmail());
-
+                    loggedIn = true;
 
                 } else {
-
+                loggedIn = false;
                 }
                 // ...
             }

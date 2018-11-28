@@ -1,24 +1,19 @@
 package com.example.kerrymbisset.valleybeta3.EventRelated;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.kerrymbisset.valleybeta3.R;
-import com.example.kerrymbisset.valleybeta3.SmallGroupRelated.SmallGroupDialogAdapter;
-import com.example.kerrymbisset.valleybeta3.models.Events;
 import com.example.kerrymbisset.valleybeta3.models.Reservation;
-import com.example.kerrymbisset.valleybeta3.models.Small_Groups;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,18 +26,20 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class RSVPYesFragment extends Fragment {
+public class RSVPNoFragment extends Fragment {
 
     private static final int NUM_COLUMNS = 1;
     private String TAG = "SmallGroupDialog";
 
+    //widgets
     private RecyclerView mRecyclerView;
-    private RSVPYesAdapter mAdapter;
+    private RSVPNoAdapter mAdapter;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private String mEventKey;
+    private String mReservationKey;
+    //vars
     private ArrayList<String> mMemberName = new ArrayList<>();
     private String mMember;
-
 
 
     @Nullable
@@ -80,27 +77,35 @@ public class RSVPYesFragment extends Fragment {
 //                           + singleSnapshot.getValue(User.class).toString());
                     Reservation reservation = singleSnapshot.getValue(Reservation.class);
 
-                    mMember = reservation.getMember_name();
+                    mMember= reservation.getMember_name();
 
-                    if (reservation.getReply().equals("YES")) {
+                    if (reservation.getReply().equals("NO")) {
                         if (mMemberName.contains(mMember)) {
                             Log.d(TAG, "Member already in view");
                         } else {
                             mMemberName.add(mMember);
                         }
+                    } else {
+                        Log.d(TAG,  "Member replied no");
+                        if (mMemberName.contains(mMember)){
+                           int position = mMemberName.indexOf(mMember);
+                           mMemberName.remove(position);
+                           mAdapter.notifyItemRemoved(position);
+                           mAdapter.notifyItemRangeChanged(position, mMemberName.size());
+                        }
+
                     }
 
 
                 }
-
                 Context context = getActivity();
                 if (context != null) {
-                    mAdapter = new RSVPYesAdapter(context, mMemberName);
+                    mAdapter = new RSVPNoAdapter(context, mMemberName);
                 }
                 // Connect the adapter with the recycler view.
                 mRecyclerView.setAdapter(mAdapter);
                 // Give the recycler view a default layout manager.
-                mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+                mRecyclerView.setLayoutManager(new GridLayoutManager( getActivity(),1 ));
             }
 
             @Override
@@ -108,6 +113,8 @@ public class RSVPYesFragment extends Fragment {
 
             }
         });
+
+
 
 
     }
@@ -147,6 +154,7 @@ public class RSVPYesFragment extends Fragment {
         }
 
     }
+
 
 
 }

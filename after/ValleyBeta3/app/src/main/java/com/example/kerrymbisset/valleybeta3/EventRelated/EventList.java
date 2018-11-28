@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +44,7 @@ public class EventList extends AppCompatActivity {
     private String mTitle;
     private String mKey;
     private String mDates;
-    private String filter;
+    private String mFilter;
 
     private int Sub1 = -1;
     private int Sub2 = -1;
@@ -63,12 +64,15 @@ public class EventList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
+        mFilter = getIntent().getStringExtra(FILTER);
         setSupportActionBar(toolbar);
         setupFirebaseAuth();
-        filter = getIntent().getStringExtra(FILTER);
+
         setContentView(R.layout.activity_event_list);
-        getMemberSubscriptions();
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            getMemberSubscriptions();
+        }
         getEventData();
 
         FloatingActionButton fab = findViewById(R.id.fab_add_event);
@@ -104,9 +108,9 @@ public class EventList extends AppCompatActivity {
                     mKey = (events.getEvent_key());
                     mTitle = (events.getEvent_title());
                     mDates = (events.getEvent_date());
-                    if (!filter.toLowerCase().equals("all")) {
+                    if (!mFilter.toLowerCase().equals("all")) {
 
-                        if (filter.equals("SMALL GROUP")) {
+                        if (mFilter.equals("SMALL GROUP")) {
                             int groupNumber = Integer.parseInt(events.getGroup_number());
                             if (groupNumber == Sub1 || groupNumber == Sub2 || groupNumber == Sub3 ||
                                     groupNumber == Sub4 || groupNumber == Sub5) {
@@ -117,8 +121,12 @@ public class EventList extends AppCompatActivity {
                                     mEventDate.add(mDates);
                                     mEventKey.add(mKey);
                                 }
+                                if (mEventList.size() == 0 || mEventDate.size() ==0 || mEventKey.size() == 0) {
+                                    Toast.makeText(getBaseContext(), "You are not subscribed to any small group", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
-                        } else if (filter.equals(events.getEvent_filter())) {
+                        } else if (mFilter.equals(events.getEvent_filter())) {
                             if (mEventKey.contains(mKey)) {
                                 Log.d(TAG, "Name already in list");
                             } else {
@@ -226,12 +234,9 @@ public class EventList extends AppCompatActivity {
 
 
                 } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    Toast.makeText(EventList.this, "Signed out", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EventList.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+                       Log.d(TAG, "No user signed in");
+                       Toast.makeText(getBaseContext(), "Information may be limited until signed in", Toast.LENGTH_SHORT).show();
+
                 }
                 // ...
             }

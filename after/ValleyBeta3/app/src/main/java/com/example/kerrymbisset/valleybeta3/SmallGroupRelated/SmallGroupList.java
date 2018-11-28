@@ -134,11 +134,7 @@ public class SmallGroupList extends AppCompatActivity {
 
             } else {
                 // User is signed out
-                Log.d(TAG, "onAuthStateChanged:signed_out");
-                Toast.makeText(SmallGroupList.this, "Signed out", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SmallGroupList.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+
             }
             // ...
         };
