@@ -13,11 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.kerrymbisset.valleybeta3.ChatRoomRelated.ChatroomListActivity;
 import com.example.kerrymbisset.valleybeta3.MemberRelated.MembershipList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import static com.example.kerrymbisset.valleybeta3.List_Activity.CHOICE;
 
@@ -33,6 +32,7 @@ public class OpeningScreen extends AppCompatActivity
     private MenuItem loggedout;
     private MenuItem loggedin;
     private MenuItem profile;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,31 +142,33 @@ public class OpeningScreen extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_event) {
-
-            Intent intent = new Intent(OpeningScreen.this, List_Activity.class)
-                    .putExtra(CHOICE, EVENTFILTERSEL);
-            startActivity(intent);
-        } else if (id == R.id.nav_small_group) {
-            Intent intent = new Intent(OpeningScreen.this, List_Activity.class)
-                    .putExtra(CHOICE, SMALLGROUPFILTERSEL);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_connect) {
-            Intent intent = new Intent(OpeningScreen.this, MembershipList.class)
-                    .putExtra(CHOICE, MEMBERSFILTERSEL);
-            startActivity(intent);
-
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_event:
+                intent = new Intent(OpeningScreen.this, List_Activity.class)
+                        .putExtra(CHOICE, EVENTFILTERSEL);
+                break;
+            case R.id.nav_small_group:
+                intent = new Intent(OpeningScreen.this, List_Activity.class)
+                        .putExtra(CHOICE, SMALLGROUPFILTERSEL);
+                break;
+            case R.id.nav_chat:
+                intent = new Intent(OpeningScreen.this, ChatroomListActivity.class);
+                break;
+            case R.id.nav_slideshow:
+                break;
+            case R.id.nav_manage:
+                break;
+            case R.id.nav_connect:
+                intent = new Intent(OpeningScreen.this, MembershipList.class)
+                        .putExtra(CHOICE, MEMBERSFILTERSEL);
+                break;
+            case R.id.nav_send:
+                break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        startActivity(intent);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

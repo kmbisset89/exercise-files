@@ -14,6 +14,10 @@
             android:icon="@drawable/ic_group"
             android:title="Small Groups" />
         <item
+            android:id="@+id/nav_chat"
+            android:icon="@drawable/ic_message_black_24dp"
+            android:title="Chat rooms" />
+        <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Slideshow" />

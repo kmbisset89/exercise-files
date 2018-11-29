@@ -74,6 +74,10 @@
         <activity
             android:name=".SmallGroupRelated.SmallGroupDetails"
             android:label="@string/title_activity_small_group_details"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChatRoomRelated.ChatroomListActivity"
+            android:label="@string/title_activity_chatroom"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
