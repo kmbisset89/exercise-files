@@ -149,6 +149,7 @@
     <string name="dbnode_events">events</string>
     <string name="dbnode_reservation">reservation</string>
     <string name="dbnode_small_groups">small_groups</string>
+    <string name="dbnode_chatroom">chatroom</string>
     <string name="show_email">Show email in directory</string>
     <string name="show_phone">Show phone in directory</string>
     <string name="show_address">Show address in directory</string>
