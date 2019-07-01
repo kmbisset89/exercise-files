@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.kerrymbisset.valleybeta3.EventRelated.EventList;
 import com.example.kerrymbisset.valleybeta3.LoginActivity;
 import com.example.kerrymbisset.valleybeta3.R;
@@ -44,6 +45,14 @@ public class SmallGroupDetails extends AppCompatActivity implements View.OnClick
     private boolean loggedIn = false;
 
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        checkAuthenticationState();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +74,8 @@ public class SmallGroupDetails extends AppCompatActivity implements View.OnClick
 
 
         getSmallGroupData();
+
+        checkAuthenticationState();
         if (loggedIn) {
             mSubscribe.setOnClickListener(V -> {
                 addSubscription();
@@ -260,6 +271,20 @@ public class SmallGroupDetails extends AppCompatActivity implements View.OnClick
             FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
         }
 
+    }
+
+    private void checkAuthenticationState() {
+        Log.d(TAG, "checkAuthenticationState: checking authentication state.");
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            Log.d(TAG, "checkAuthenticationState: user is null, the are logged out.");
+            loggedIn = false;
+        } else {
+            Log.d(TAG, "checkAuthenticationState: user is authenticated.");
+            loggedIn = true;
+        }
     }
 
 }

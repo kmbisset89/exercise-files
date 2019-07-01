@@ -10,13 +10,11 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.example.kerrymbisset.valleybeta3.AllConstants;
-import com.example.kerrymbisset.valleybeta3.EventFilter;
-import com.example.kerrymbisset.valleybeta3.MemberFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.EventFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.MemberFilter;
 
-import com.example.kerrymbisset.valleybeta3.SGFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.SGFilter;
 import com.example.kerrymbisset.valleybeta3.Small_Group_Info;
-
-import java.lang.reflect.Member;
 
 /**
  * Created by danielmalone on 10/28/17.

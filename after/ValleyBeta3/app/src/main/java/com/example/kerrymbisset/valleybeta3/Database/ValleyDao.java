@@ -2,16 +2,14 @@ package com.example.kerrymbisset.valleybeta3.Database;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
-import com.example.kerrymbisset.valleybeta3.EventFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.EventFilter;
 
-import com.example.kerrymbisset.valleybeta3.MemberFilter;
-import com.example.kerrymbisset.valleybeta3.SGFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.MemberFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.SGFilter;
 import com.example.kerrymbisset.valleybeta3.Small_Group_Info;
 
 import java.util.List;

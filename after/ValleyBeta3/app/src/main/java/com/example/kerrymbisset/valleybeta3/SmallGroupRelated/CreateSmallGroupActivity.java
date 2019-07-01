@@ -187,7 +187,7 @@ public class CreateSmallGroupActivity extends AppCompatActivity implements View.
                 break;
             }
             case R.id.sg_filter_mens: {
-                 mSGFilter = MENSFILTER;
+                mSGFilter = MENSFILTER;
                 DeselectAll();
                 mFilterMens.setChecked(true);
                 Toast.makeText(CreateSmallGroupActivity.this, "Small Group Filter set to Mens", Toast.LENGTH_SHORT).show();

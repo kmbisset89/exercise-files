@@ -1,4 +1,4 @@
-package com.example.kerrymbisset.valleybeta3;
+package com.example.kerrymbisset.valleybeta3.RoomDataModels;
 
 
 
@@ -6,18 +6,17 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
 
-@Entity(tableName = "event_filter")
-public class EventFilter {
+@Entity(tableName = "sg_filter")
+public class SGFilter {
 
-    public EventFilter(String filterName) {
+    public SGFilter(String filterName) {
         this.filterName = filterName;
     }
 
     @Ignore
-    public EventFilter(int id, String eventTitle) {
+    public SGFilter(int id, String eventTitle) {
         this.id = id;
         this.filterName = eventTitle; }
 

@@ -2,19 +2,14 @@ package com.example.kerrymbisset.valleybeta3.EventRelated;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.CalendarContract;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -23,7 +18,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
@@ -34,29 +28,10 @@ import com.example.kerrymbisset.valleybeta3.DatePickerFragment;
 import com.example.kerrymbisset.valleybeta3.IDialogListener;
 import com.example.kerrymbisset.valleybeta3.List_Activity;
 import com.example.kerrymbisset.valleybeta3.LoginActivity;
-import com.example.kerrymbisset.valleybeta3.OpeningScreen;
 import com.example.kerrymbisset.valleybeta3.R;
-import com.example.kerrymbisset.valleybeta3.RegisterActivity;
-import com.example.kerrymbisset.valleybeta3.SettingsActivity;
 import com.example.kerrymbisset.valleybeta3.SmallGroupRelated.SmallGroupDialog;
-import com.example.kerrymbisset.valleybeta3.SmallGroupRelated.SmallGroupDialogAdapter;
 import com.example.kerrymbisset.valleybeta3.TimePickerFragment;
 import com.example.kerrymbisset.valleybeta3.models.Events;
-import com.example.kerrymbisset.valleybeta3.models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import com.google.firebase.auth.SignInMethodQueryResult;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -67,17 +42,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
-import static com.example.kerrymbisset.valleybeta3.List_Activity.EXTRA_DATA_ID;
-import static com.example.kerrymbisset.valleybeta3.List_Activity.EXTRA_DATA_UPDATE_EVENT_DATE;
-import static com.example.kerrymbisset.valleybeta3.List_Activity.EXTRA_DATA_UPDATE_EVENT_DESC;
-import static com.example.kerrymbisset.valleybeta3.List_Activity.EXTRA_DATA_UPDATE_EVENT_FILTER;
-import static com.example.kerrymbisset.valleybeta3.List_Activity.EXTRA_DATA_UPDATE_EVENT_MILLIS;
-import static com.example.kerrymbisset.valleybeta3.List_Activity.EXTRA_DATA_UPDATE_EVENT_TIME;
-import static com.example.kerrymbisset.valleybeta3.List_Activity.EXTRA_DATA_UPDATE_EVENT_TITLE;
 import static com.example.kerrymbisset.valleybeta3.List_Activity.FILTER;
 
 
@@ -424,7 +391,7 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
                 .setMessage("Do you want to exit without saving")
                 .setPositiveButton("Yes", (dialogInterface, i) -> {
                     Intent intent = new Intent(CreateEventActivity.this, List_Activity.class);
-                    intent.putExtra(FILTER,EVENTFILTERSEL);
+                    intent.putExtra(FILTER, EVENTFILTERSEL);
                     startActivity(intent);
                     finish();
 
@@ -432,10 +399,10 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
                 .setNegativeButton("No", (dialogInterface, i) -> {
                     if (saveEvent()) {
                         Intent intent = new Intent(CreateEventActivity.this, List_Activity.class);
-                        intent.putExtra(FILTER,EVENTFILTERSEL);
+                        intent.putExtra(FILTER, EVENTFILTERSEL);
                         startActivity(intent);
                         finish();
-                    } else{
+                    } else {
                         dialogInterface.cancel();
                     }
                 })
@@ -502,7 +469,7 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
                     finish();
                 }
 
-                    break;
+                break;
 
             }
             case R.id.radio_church: {
@@ -545,10 +512,9 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
             /*
             ------ Change Name -----
              */
-        boolean isFieldFilled =true;
+        boolean isFieldFilled = true;
         if (mIsNewEvent) {
             mEventKey = UUID.randomUUID().toString();
-
 
 
             if (!mEventTitle.getText().toString().equals("")) {
@@ -578,7 +544,7 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
                         .child(mEventKey)
                         .child(getString(R.string.field_event_time))
                         .setValue(mEventTime.getText().toString());
-            } else{
+            } else {
 
                 Toast.makeText(this, "Please add event time before saving", Toast.LENGTH_SHORT).show();
                 isFieldFilled = false;
@@ -647,8 +613,6 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
                     .setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
-
-
         }
         return isFieldFilled;
     }
@@ -657,9 +621,9 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
         group = findViewById(R.id.event_radio_group);
         group.setVisibility(View.GONE);
 
-        mSmallGroupDialog= new SmallGroupDialog();
+        mSmallGroupDialog = new SmallGroupDialog();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.small_group_list,mSmallGroupDialog, "home");
+        transaction.add(R.id.small_group_list, mSmallGroupDialog, "home");
         transaction.commit();
 
 
@@ -699,5 +663,10 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
         transaction.commit();
         Toast.makeText(this, "You selected " + name, Toast.LENGTH_SHORT).show();
         group.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void passBackTrueFalse(boolean answer) {
+
     }
 }

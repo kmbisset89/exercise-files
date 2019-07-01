@@ -1,24 +1,20 @@
 package com.example.kerrymbisset.valleybeta3.ChatRoomRelated;
 
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
+import android.widget.Toast;
 
 import com.example.kerrymbisset.valleybeta3.IDialogListener;
 import com.example.kerrymbisset.valleybeta3.R;
-import com.example.kerrymbisset.valleybeta3.SmallGroupRelated.SmallGroupList;
-import com.example.kerrymbisset.valleybeta3.SmallGroupRelated.SmallGroupListAdapter;
 import com.example.kerrymbisset.valleybeta3.models.Chatroom;
-import com.example.kerrymbisset.valleybeta3.models.Small_Groups;
 import com.example.kerrymbisset.valleybeta3.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ChatroomListActivity extends AppCompatActivity implements IDialogListener {
+public class ChatroomListActivity extends AppCompatActivity {
 
     private String TAG = "ChatroomListActivity";
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -39,17 +35,21 @@ public class ChatroomListActivity extends AppCompatActivity implements IDialogLi
     private ArrayList<String> mChatroomName = new ArrayList<>();
     private ArrayList<String> mChatroomSubName = new ArrayList<>();
     private ArrayList<String> mChatroomKey = new ArrayList<>();
-    private ArrayList<Integer> mSmallGroupSub = new ArrayList<>();
+    private ArrayList<String> mSmallGroupSub = new ArrayList<>();
     private String mKey;
+    public static final String NUMBER = "com.example.kerrymbisset.valleybeta3.ChatRoomRelated.NUMBER";
+    public static final String CHATKEY = "com.example.kerrymbisset.valleybeta3.ChatRoomRelated.CHATKEY";
     private ChatroomListAdapter mAdapter;
     private RecyclerView mRecyclerView;
-    private CreateANewChatroom mCreateANewChatroom;
 
-    private int Sub1 = -1;
-    private int Sub2 = -1;
-    private int Sub3 = -1;
-    private int Sub4 = -1;
-    private int Sub5 = -1;
+    private Bundle args;
+    private IDialogListener mListener;
+
+    private String Sub1 = "";
+    private String Sub2 = "";
+    private String Sub3 = "";
+    private String Sub4 = "";
+    private String Sub5 = "";
 
 
     @Override
@@ -59,20 +59,26 @@ public class ChatroomListActivity extends AppCompatActivity implements IDialogLi
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupFirebaseAuth();
-        getMemberSubscriptions();
-        getChatRooms();
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatroomListActivity.this, CreateAChatRoom.class);
 
-            mCreateANewChatroom = new CreateANewChatroom();
+            startActivity(intent);
 
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.createnewchatframe,mCreateANewChatroom,"Create a new chat");
-            transaction.commit();
+
+
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkAuthenticationState();
+        getMemberSubscriptions();
+        getChatRooms();
     }
 
     private void getChatRooms() {
@@ -111,7 +117,7 @@ public class ChatroomListActivity extends AppCompatActivity implements IDialogLi
 
 
                     mAdapter = new ChatroomListAdapter(ChatroomListActivity.this, mChatroomName, mChatroomSubName, mChatroomKey);
-                    mRecyclerView = findViewById(R.id.recycler_view);
+                    mRecyclerView = findViewById(R.id.chatrecycler);
                     // Connect the adapter with the recycler view.
                     mRecyclerView.setAdapter(mAdapter);
                     // Give the recycler view a default layout manager.
@@ -137,10 +143,9 @@ public class ChatroomListActivity extends AppCompatActivity implements IDialogLi
             ---------- QUERY Method 1 ----------
          */
 
-        if (loggedIn) {
+
             Query query1 = reference.child(getString(R.string.dbnode_users))
-                    .orderByKey()
-                    .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    .orderByKey();
             query1.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -151,31 +156,33 @@ public class ChatroomListActivity extends AppCompatActivity implements IDialogLi
 //                           + singleSnapshot.getValue(User.class).toString());
                         User user = singleSnapshot.getValue(User.class);
 
-                        if (!user.getSmall_group_subscription1().equals("")) {
-                            Sub1 = Integer.parseInt(user.getSmall_group_subscription1());
-                            mSmallGroupSub.add(Sub1);
-                        }
+                        if (user.getUser_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                            if (!user.getSmall_group_subscription1().equals("")) {
+                                Sub1 = user.getSmall_group_subscription1();
+                                mSmallGroupSub.add(Sub1);
+                            }
 
-                        if (!user.getSmall_group_subscription2().equals("")) {
-                            Sub2 = Integer.parseInt(user.getSmall_group_subscription2());
-                            mSmallGroupSub.add(Sub2);
-                        }
+                            if (!user.getSmall_group_subscription2().equals("")) {
+                                Sub2 = user.getSmall_group_subscription2();
+                                mSmallGroupSub.add(Sub2);
+                            }
 
-                        if (!user.getSmall_group_subscription3().equals("")) {
-                            Sub3 = Integer.parseInt(user.getSmall_group_subscription3());
-                            mSmallGroupSub.add(Sub3);
-                        }
+                            if (!user.getSmall_group_subscription3().equals("")) {
+                                Sub3 = user.getSmall_group_subscription3();
+                                mSmallGroupSub.add(Sub3);
+                            }
 
-                        if (!user.getSmall_group_subscription4().equals("")) {
-                            Sub4 = Integer.parseInt(user.getSmall_group_subscription4());
-                            mSmallGroupSub.add(Sub4);
-                        }
+                            if (!user.getSmall_group_subscription4().equals("")) {
+                                Sub4 = user.getSmall_group_subscription4();
+                                mSmallGroupSub.add(Sub4);
+                            }
 
-                        if (!user.getSmall_group_subscription5().equals("")) {
-                            Sub5 = Integer.parseInt(user.getSmall_group_subscription5());
-                            mSmallGroupSub.add(Sub5);
-                        }
+                            if (!user.getSmall_group_subscription5().equals("")) {
+                                Sub5 = user.getSmall_group_subscription5();
+                                mSmallGroupSub.add(Sub5);
+                            }
 
+                        }
 
                     }
                 }
@@ -186,28 +193,29 @@ public class ChatroomListActivity extends AppCompatActivity implements IDialogLi
                 }
             });
 
-        }
+
     }
 
     private void setupFirebaseAuth() {
         Log.d(TAG, "setupFirebaseAuth: started.");
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    //toastMessage("Successfully signed in with: " + user.getEmail());
-                    loggedIn = true;
+        mAuthListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
 
+                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                loggedIn = true;
 
-                } else {
-                    loggedIn = false;
-                }
-                // ...
+            } else {
+                Log.d(TAG, "onAuthStateChanged:signed_out");
+
+                loggedIn = false;
+//                    Intent intent = new Intent(OpeningScreen.this, LoginActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    startActivity(intent);
+//                    finish();
             }
+
         };
     }
 
@@ -223,12 +231,23 @@ public class ChatroomListActivity extends AppCompatActivity implements IDialogLi
         if (mAuthListener != null) {
             FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
         }
+        mSmallGroupSub.clear();
 
     }
 
+    private void checkAuthenticationState() {
+        Log.d(TAG, "checkAuthenticationState: checking authentication state.");
 
-    @Override
-    public void getSmallGroupData(String name, String number) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        if (user == null) {
+            Log.d(TAG, "checkAuthenticationState: user is null, the are logged out.");
+            loggedIn = false;
+        } else {
+            Log.d(TAG, "checkAuthenticationState: user is authenticated.");
+            loggedIn = true;
+        }
     }
+
+
 }

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.kerrymbisset.valleybeta3.MemberRelated.MemberDetailActivity;
 import com.example.kerrymbisset.valleybeta3.R;
 
 import java.util.ArrayList;

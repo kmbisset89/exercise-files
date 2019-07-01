@@ -5,12 +5,11 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
-import com.example.kerrymbisset.valleybeta3.Database.DataRepository;
-import com.example.kerrymbisset.valleybeta3.EventFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.EventFilter;
 
-import com.example.kerrymbisset.valleybeta3.MemberFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.MemberFilter;
 
-import com.example.kerrymbisset.valleybeta3.SGFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.SGFilter;
 import com.example.kerrymbisset.valleybeta3.Small_Group_Info;
 
 import java.util.List;

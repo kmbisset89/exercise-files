@@ -1,5 +1,7 @@
 package com.example.kerrymbisset.valleybeta3;
 
+import java.util.ArrayList;
+
 public interface AllConstants {
 
     int NOTSUBSCRIBED =-1;
@@ -29,7 +31,6 @@ public interface AllConstants {
     String ADULTFILTER = "ADULT";
     String MENSFILTER = "MENS";
     String WOMENFILTER = "WOMENS";
-
 
 
 

@@ -2,13 +2,12 @@ package com.example.kerrymbisset.valleybeta3.Database;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
-import android.os.AsyncTask;
 
-import com.example.kerrymbisset.valleybeta3.EventFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.EventFilter;
 
-import com.example.kerrymbisset.valleybeta3.MemberFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.MemberFilter;
 
-import com.example.kerrymbisset.valleybeta3.SGFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.SGFilter;
 import com.example.kerrymbisset.valleybeta3.Small_Group_Info;
 
 import java.util.List;
@@ -45,8 +44,6 @@ public class DataRepository {
     }
 
     //////ALL
-
-
 
     public LiveData<List<EventFilter>> getmAllEventFilters() {
         return mAllEventFilters;

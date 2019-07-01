@@ -150,13 +150,15 @@
     <string name="dbnode_reservation">reservation</string>
     <string name="dbnode_small_groups">small_groups</string>
     <string name="dbnode_chatroom">chatroom</string>
+    <string name="dbnode_chat">chat</string>
+
+
     <string name="show_email">Show email in directory</string>
     <string name="show_phone">Show phone in directory</string>
     <string name="show_address">Show address in directory</string>
 
 
     <!-- Firebase Database Fields -->
-    <string name="field_chatroom_name">chatroom_name</string>
     <string name="field_creator_id">creator_id</string>
     <string name="field_security_level">security_level</string>
 
@@ -195,6 +197,12 @@
     <string name="field_reservation_member_name">member_name</string>
     <string name="field_reservation_reply">reply</string>
 
+    <string name="field_chatroom_subname">chatroom_subname</string>
+    <string name="field_chatroom_create_by">chatroom_created_by</string>
+    <string name="field_chatroom_name">chatroom_name</string>
+    <string name="field_chatroom_group_key">chatroom_group_key</string>
+    <string name="field_chatroom_key">chatroom_key</string>
+
 
     <string name="field_small_group_name">sg_title</string>
     <string name="field_small_group_poc">sg_point_of_contact</string>
@@ -204,6 +212,11 @@
     <string name="field_small_group_key">sg_key</string>
     <string name="field_small_group_created_by">sg_created_by</string>
     <string name="field_small_group_filter">sg_filter</string>
+
+    <string name="field_chat_message">message</string>
+    <string name="field_chat_timestamp">timestamp</string>
+    <string name="field_chat_created_by">created_by</string>
+
 
 
     <string name="answer_yes">YES</string>
@@ -236,6 +249,21 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_chatroom">ChatroomActivity</string>
+    <string name="chat">Enter Text</string>
+
+    <!-- Bad word check -->
+    <string name="badword1">fuck</string>
+    <string name="badword2">ass</string>
+    <string name="badword3">cunt</string>
+    <string name="badword4">bitch</string>
+    <string name="badword5">pussy</string>
+    <string name="badword6">fucking</string>
+    <string name="badword7">fuckin</string>
+    <string name="badword8">asshat</string>
+    <string name="badword9">retarded</string>
+    <string name="badword10">retard</string>
+    <string name="badword11">bitching</string>
+
 
 
 </resources>

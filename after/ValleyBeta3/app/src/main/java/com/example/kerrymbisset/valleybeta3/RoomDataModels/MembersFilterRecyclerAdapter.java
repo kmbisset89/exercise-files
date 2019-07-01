@@ -1,4 +1,4 @@
-package com.example.kerrymbisset.valleybeta3;
+package com.example.kerrymbisset.valleybeta3.RoomDataModels;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,15 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.kerrymbisset.valleybeta3.R;
+
 import java.util.List;
 
-public class EventFilterRecyclerAdapter extends RecyclerView.Adapter<EventFilterRecyclerAdapter.ViewHolder> {
+public class MembersFilterRecyclerAdapter extends RecyclerView.Adapter<MembersFilterRecyclerAdapter.ViewHolder> {
     private final LayoutInflater mInflator;
-    List<EventFilter> mEventFilter;
+    List<com.example.kerrymbisset.valleybeta3.RoomDataModels.MemberFilter> MemberFilter;
     private static ClickListener clickListener;
 
 
-    EventFilterRecyclerAdapter(Context context) {
+    public MembersFilterRecyclerAdapter(Context context) {
         mInflator = LayoutInflater.from(context);
     }
 
@@ -24,15 +26,15 @@ public class EventFilterRecyclerAdapter extends RecyclerView.Adapter<EventFilter
 
     @Override
     public ViewHolder onCreateViewHolder (ViewGroup parent,int viewType){
-        View itemView = mInflator.inflate(R.layout.event_filter_list, parent, false);
+        View itemView = mInflator.inflate(R.layout.member_filter_list, parent, false);
         return new ViewHolder(itemView);
         }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (mEventFilter != null) {
-            EventFilter current2 = mEventFilter.get(position);
-            holder.mEventFilterTitle.setText(current2.getFilterName());
+        if (MemberFilter != null) {
+            MemberFilter current2 = MemberFilter.get(position);
+            holder.mMemberFilterName.setText(current2.getFilterName());
 
         }
     }
@@ -40,8 +42,8 @@ public class EventFilterRecyclerAdapter extends RecyclerView.Adapter<EventFilter
         /**
          * Associates a list of words with this adapter
          */
-        void setEventsFilter (List < EventFilter > eventsFilter) {
-            mEventFilter = eventsFilter;
+        public void setSGFilter(List<MemberFilter> memberFilter) {
+            MemberFilter = memberFilter;
             notifyDataSetChanged();
         }
 
@@ -51,24 +53,24 @@ public class EventFilterRecyclerAdapter extends RecyclerView.Adapter<EventFilter
          */
         @Override
         public int getItemCount () {
-            if (mEventFilter != null)
-                return mEventFilter.size();
+            if (MemberFilter != null)
+                return MemberFilter.size();
             else return 0;
         }
 
-    public EventFilter getEventAtPosition(int position) {
-        return mEventFilter.get(position);
+    public MemberFilter getMemberAtPosition(int position) {
+        return MemberFilter.get(position);
     }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            public final TextView mEventFilterTitle;
+            public final TextView mMemberFilterName;
 
 
 
             private ViewHolder(final View itemView) {
                 super(itemView);
-                mEventFilterTitle = itemView.findViewById(R.id.event_filter);
+                mMemberFilterName = itemView.findViewById(R.id.text_member_filter);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -81,7 +83,7 @@ public class EventFilterRecyclerAdapter extends RecyclerView.Adapter<EventFilter
 
         }
         public void setOnItemClickListener (ClickListener clickListener){
-            EventFilterRecyclerAdapter.clickListener = clickListener;
+            MembersFilterRecyclerAdapter.clickListener = clickListener;
         }
 
         public interface ClickListener {

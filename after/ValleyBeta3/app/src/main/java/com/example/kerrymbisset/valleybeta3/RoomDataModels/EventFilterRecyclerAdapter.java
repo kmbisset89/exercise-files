@@ -1,4 +1,4 @@
-package com.example.kerrymbisset.valleybeta3;
+package com.example.kerrymbisset.valleybeta3.RoomDataModels;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,15 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.kerrymbisset.valleybeta3.R;
+
 import java.util.List;
 
-public class SmallGroupFilterRecyclerAdapter extends RecyclerView.Adapter<SmallGroupFilterRecyclerAdapter.ViewHolder> {
+public class EventFilterRecyclerAdapter extends RecyclerView.Adapter<EventFilterRecyclerAdapter.ViewHolder> {
     private final LayoutInflater mInflator;
-    List<SGFilter> mSGFilter;
+    List<EventFilter> mEventFilter;
     private static ClickListener clickListener;
 
 
-    SmallGroupFilterRecyclerAdapter(Context context) {
+    public EventFilterRecyclerAdapter(Context context) {
         mInflator = LayoutInflater.from(context);
     }
 
@@ -24,15 +26,15 @@ public class SmallGroupFilterRecyclerAdapter extends RecyclerView.Adapter<SmallG
 
     @Override
     public ViewHolder onCreateViewHolder (ViewGroup parent,int viewType){
-        View itemView = mInflator.inflate(R.layout.sg_filter_list, parent, false);
+        View itemView = mInflator.inflate(R.layout.event_filter_list, parent, false);
         return new ViewHolder(itemView);
         }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (mSGFilter != null) {
-            SGFilter current2 = mSGFilter.get(position);
-            holder.mSGFilterName.setText(current2.getFilterName());
+        if (mEventFilter != null) {
+            EventFilter current2 = mEventFilter.get(position);
+            holder.mEventFilterTitle.setText(current2.getFilterName());
 
         }
     }
@@ -40,8 +42,8 @@ public class SmallGroupFilterRecyclerAdapter extends RecyclerView.Adapter<SmallG
         /**
          * Associates a list of words with this adapter
          */
-        void setSGFilter (List < SGFilter > sgFilter) {
-            mSGFilter = sgFilter;
+        public void setEventsFilter(List<EventFilter> eventsFilter) {
+            mEventFilter = eventsFilter;
             notifyDataSetChanged();
         }
 
@@ -51,24 +53,24 @@ public class SmallGroupFilterRecyclerAdapter extends RecyclerView.Adapter<SmallG
          */
         @Override
         public int getItemCount () {
-            if (mSGFilter != null)
-                return mSGFilter.size();
+            if (mEventFilter != null)
+                return mEventFilter.size();
             else return 0;
         }
 
-    public SGFilter getSGAtPosition(int position) {
-        return mSGFilter.get(position);
+    public EventFilter getEventAtPosition(int position) {
+        return mEventFilter.get(position);
     }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            public final TextView mSGFilterName;
+            public final TextView mEventFilterTitle;
 
 
 
             private ViewHolder(final View itemView) {
                 super(itemView);
-                mSGFilterName = itemView.findViewById(R.id.text_sg_filter);
+                mEventFilterTitle = itemView.findViewById(R.id.event_filter);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -81,7 +83,7 @@ public class SmallGroupFilterRecyclerAdapter extends RecyclerView.Adapter<SmallG
 
         }
         public void setOnItemClickListener (ClickListener clickListener){
-            SmallGroupFilterRecyclerAdapter.clickListener = clickListener;
+            EventFilterRecyclerAdapter.clickListener = clickListener;
         }
 
         public interface ClickListener {

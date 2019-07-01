@@ -2,6 +2,7 @@ package com.example.kerrymbisset.valleybeta3;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -191,24 +192,24 @@ public class OpeningScreen extends AppCompatActivity
          */
     private void setupFirebaseAuth() {
         Log.d(TAG, "setupFirebaseAuth: started.");
+        Log.d(TAG, "setupFirebaseAuth: started.");
 
-        mAuthListener = firebaseAuth -> {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            if (user != null) {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    //toastMessage("Successfully signed in with: " + user.getEmail());
+                     ISLOGGEDIN = true;
 
-                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                ISLOGGEDIN = true;
-
-            } else {
-                Log.d(TAG, "onAuthStateChanged:signed_out");
-
-                ISLOGGEDIN = false;
-//                    Intent intent = new Intent(OpeningScreen.this, LoginActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    startActivity(intent);
-//                    finish();
+                } else {
+                    ISLOGGEDIN = false;
+                    Log.d(TAG, "not logged in");
+                }
+                // ...
             }
-
         };
     }
 

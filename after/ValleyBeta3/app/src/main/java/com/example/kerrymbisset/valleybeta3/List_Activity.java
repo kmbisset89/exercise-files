@@ -3,35 +3,34 @@ package com.example.kerrymbisset.valleybeta3;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 
 import com.example.kerrymbisset.valleybeta3.Database.ValleyViewModel;
 import com.example.kerrymbisset.valleybeta3.EventRelated.CreateEventActivity;
 import com.example.kerrymbisset.valleybeta3.EventRelated.EventList;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.EventFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.EventFilterRecyclerAdapter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.MemberFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.MembersFilterRecyclerAdapter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.SGFilter;
+import com.example.kerrymbisset.valleybeta3.RoomDataModels.SmallGroupFilterRecyclerAdapter;
 import com.example.kerrymbisset.valleybeta3.SmallGroupRelated.CreateSmallGroupActivity;
 import com.example.kerrymbisset.valleybeta3.SmallGroupRelated.SmallGroupList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.example.kerrymbisset.valleybeta3.EventRelated.CreateEventActivity.*;
 
@@ -119,28 +118,16 @@ public class List_Activity extends AppCompatActivity   {
 
                 // Get all the words from the database
                 // and associate them to the adapter.
-                mViewModel.getmAllEventsFilter().observe(this, new Observer<List<EventFilter>>() {
-                    @Override
-                    public void onChanged(@Nullable final List<EventFilter> eventFilters) {
-                        // Update the cached copy of the words in the adapter.
-                        adapter2.setEventsFilter(eventFilters);
+                // Update the cached copy of the words in the adapter.
+                mViewModel.getmAllEventsFilter().observe(this, adapter2::setEventsFilter);
 
-
-
-                    }
-                });
-
-                adapter2.setOnItemClickListener(new EventFilterRecyclerAdapter.ClickListener()  {
-
-                    @Override
-                    public void onItemClick(View v, int position) {
-                        EventFilter eventFilter = adapter2.getEventAtPosition(position);
-                        Intent intent = new Intent(List_Activity.this, EventList.class);
-                        intent
-                                .putExtra(CHOICE, EVENTS)
-                                .putExtra(FILTER, eventFilter.getFilterName());
-                        startActivity(intent);
-                    }
+                adapter2.setOnItemClickListener((v, position) -> {
+                    EventFilter eventFilter = adapter2.getEventAtPosition(position);
+                    Intent intent = new Intent(List_Activity.this, EventList.class);
+                    intent
+                            .putExtra(CHOICE, EVENTS)
+                            .putExtra(FILTER, eventFilter.getFilterName());
+                    startActivity(intent);
                 });
 
                 break;
@@ -158,13 +145,8 @@ public class List_Activity extends AppCompatActivity   {
 
                 // Get all the words from the database
                 // and associate them to the adapter.
-                mViewModel.getmAllSGFilter().observe(this, new Observer<List<SGFilter>>() {
-                    @Override
-                    public void onChanged(@Nullable final List<SGFilter> sgFilters) {
-                        // Update the cached copy of the words in the adapter.
-                        smallGroupFilterRecyclerAdapter.setSGFilter(sgFilters);
-                    }
-                });
+                // Update the cached copy of the words in the adapter.
+                mViewModel.getmAllSGFilter().observe(this, smallGroupFilterRecyclerAdapter::setSGFilter);
 
                 smallGroupFilterRecyclerAdapter.setOnItemClickListener((v, position) -> {
                     SGFilter sgFilter = smallGroupFilterRecyclerAdapter.getSGAtPosition(position);
@@ -185,25 +167,16 @@ public class List_Activity extends AppCompatActivity   {
 
                 // Get all the words from the database
                 // and associate them to the adapter.
-                mViewModel.getmAllMemberFilters().observe(this, new Observer<List<MemberFilter>>() {
-                    @Override
-                    public void onChanged(@Nullable final List<MemberFilter> memberFilters) {
-                        // Update the cached copy of the words in the adapter.
-                        membersFilterRecyclerAdapter.setSGFilter(memberFilters);
-                    }
-                });
+                // Update the cached copy of the words in the adapter.
+                mViewModel.getmAllMemberFilters().observe(this, membersFilterRecyclerAdapter::setSGFilter);
 
-                membersFilterRecyclerAdapter.setOnItemClickListener(new MembersFilterRecyclerAdapter.ClickListener()  {
-
-                    @Override
-                    public void onItemClick(View v, int position) {
-                        MemberFilter sgFilter = membersFilterRecyclerAdapter.getMemberAtPosition(position);
-                        Intent intent = new Intent(List_Activity.this, List_Activity.class);
-                        intent
-                                .putExtra(CHOICE, MEMBERS)
-                                .putExtra(FILTER, position+1);
-                        startActivity(intent);
-                    }
+                membersFilterRecyclerAdapter.setOnItemClickListener((v, position) -> {
+                    MemberFilter sgFilter = membersFilterRecyclerAdapter.getMemberAtPosition(position);
+                    Intent intent = new Intent(List_Activity.this, List_Activity.class);
+                    intent
+                            .putExtra(CHOICE, MEMBERS)
+                            .putExtra(FILTER, position+1);
+                    startActivity(intent);
                 });
 
                 break;

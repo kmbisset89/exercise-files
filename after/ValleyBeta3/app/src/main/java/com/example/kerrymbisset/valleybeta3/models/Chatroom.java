@@ -15,6 +15,9 @@ public class Chatroom {
         this.chatroom_group_key = chatroom_group_key;
     }
 
+    public Chatroom (){}
+
+
     public String getChatroom_name() {
         return chatroom_name;
     }

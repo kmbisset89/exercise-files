@@ -1,4 +1,4 @@
-package com.example.kerrymbisset.valleybeta3;
+package com.example.kerrymbisset.valleybeta3.RoomDataModels;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,15 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.kerrymbisset.valleybeta3.R;
+
 import java.util.List;
 
-public class MembersFilterRecyclerAdapter extends RecyclerView.Adapter<MembersFilterRecyclerAdapter.ViewHolder> {
+public class SmallGroupFilterRecyclerAdapter extends RecyclerView.Adapter<SmallGroupFilterRecyclerAdapter.ViewHolder> {
     private final LayoutInflater mInflator;
-    List<MemberFilter> MemberFilter;
+    List<SGFilter> mSGFilter;
     private static ClickListener clickListener;
 
 
-    MembersFilterRecyclerAdapter(Context context) {
+    public SmallGroupFilterRecyclerAdapter(Context context) {
         mInflator = LayoutInflater.from(context);
     }
 
@@ -24,15 +26,15 @@ public class MembersFilterRecyclerAdapter extends RecyclerView.Adapter<MembersFi
 
     @Override
     public ViewHolder onCreateViewHolder (ViewGroup parent,int viewType){
-        View itemView = mInflator.inflate(R.layout.member_filter_list, parent, false);
+        View itemView = mInflator.inflate(R.layout.sg_filter_list, parent, false);
         return new ViewHolder(itemView);
         }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (MemberFilter != null) {
-            MemberFilter current2 = MemberFilter.get(position);
-            holder.mMemberFilterName.setText(current2.getFilterName());
+        if (mSGFilter != null) {
+            SGFilter current2 = mSGFilter.get(position);
+            holder.mSGFilterName.setText(current2.getFilterName());
 
         }
     }
@@ -40,8 +42,8 @@ public class MembersFilterRecyclerAdapter extends RecyclerView.Adapter<MembersFi
         /**
          * Associates a list of words with this adapter
          */
-        void setSGFilter (List < MemberFilter > memberFilter) {
-            MemberFilter = memberFilter;
+        public void setSGFilter(List<SGFilter> sgFilter) {
+            mSGFilter = sgFilter;
             notifyDataSetChanged();
         }
 
@@ -51,24 +53,24 @@ public class MembersFilterRecyclerAdapter extends RecyclerView.Adapter<MembersFi
          */
         @Override
         public int getItemCount () {
-            if (MemberFilter != null)
-                return MemberFilter.size();
+            if (mSGFilter != null)
+                return mSGFilter.size();
             else return 0;
         }
 
-    public MemberFilter getMemberAtPosition(int position) {
-        return MemberFilter.get(position);
+    public SGFilter getSGAtPosition(int position) {
+        return mSGFilter.get(position);
     }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            public final TextView mMemberFilterName;
+            public final TextView mSGFilterName;
 
 
 
             private ViewHolder(final View itemView) {
                 super(itemView);
-                mMemberFilterName = itemView.findViewById(R.id.text_member_filter);
+                mSGFilterName = itemView.findViewById(R.id.text_sg_filter);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -81,7 +83,7 @@ public class MembersFilterRecyclerAdapter extends RecyclerView.Adapter<MembersFi
 
         }
         public void setOnItemClickListener (ClickListener clickListener){
-            MembersFilterRecyclerAdapter.clickListener = clickListener;
+            SmallGroupFilterRecyclerAdapter.clickListener = clickListener;
         }
 
         public interface ClickListener {

@@ -11,44 +11,46 @@ import android.widget.TextView;
 
 import com.example.kerrymbisset.valleybeta3.R;
 import com.example.kerrymbisset.valleybeta3.SmallGroupRelated.SmallGroupDetails;
+import com.example.kerrymbisset.valleybeta3.models.Chat_Messages;
 
 import java.util.ArrayList;
 
-import static com.example.kerrymbisset.valleybeta3.ChatRoomRelated.ChatroomListActivity.CHATKEY;
 import static com.example.kerrymbisset.valleybeta3.SmallGroupRelated.SmallGroupDetails.KEY;
 
-public class ChatroomListAdapter extends RecyclerView.Adapter<ChatroomListAdapter.SmallGroupViewHolder> {
+public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageListAdapter.SmallGroupViewHolder> {
 
     private final Context mContext;
     private final LayoutInflater mInflator;
-    private final ArrayList<String> mChatroomName;
-    private final ArrayList<String> mChatroomSubname;
-    private final ArrayList<String> mChatroomKeys;
+    private final ArrayList<Chat_Messages> mChatObject;
+
+    private String mMessage;
+
 
     @NonNull
     @Override
     public SmallGroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-         View mItemView = mInflator.inflate(R.layout.small_group_list, parent, false);
+         View mItemView = mInflator.inflate(R.layout.chat_list, parent, false);
         return new SmallGroupViewHolder(mItemView, this);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SmallGroupViewHolder holder, int position) {
-        String mCurrent = mChatroomName.get(position);
-        holder.mSmallGroupNameTextView.setText(mCurrent);
+        Chat_Messages mCurrent = mChatObject.get(position);
+        mMessage = mCurrent.getMessage();
+        holder.mSmallGroupNameTextView.setText(mMessage);
 
     }
 
     @Override
     public int getItemCount() {
-        return mChatroomName.size();
+        return mChatObject.size();
     }
 
 
     class SmallGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView mSmallGroupNameTextView;
 
-        public SmallGroupViewHolder(View itemView, ChatroomListAdapter adapter) {
+        public SmallGroupViewHolder(View itemView, ChatMessageListAdapter adapter) {
             super(itemView);
             mSmallGroupNameTextView = itemView.findViewById(R.id.text_small_group) ;
             mSmallGroupNameTextView.setOnClickListener(this);
@@ -58,20 +60,18 @@ public class ChatroomListAdapter extends RecyclerView.Adapter<ChatroomListAdapte
         public void onClick(View v) {
             int mPosition = getLayoutPosition();
 
-            Intent intent = new Intent(mContext, ChatActivity.class);
-            intent.putExtra(CHATKEY, mChatroomKeys.get(mPosition));
-            mContext.startActivity(intent);
 
         }
 
 
     }
 
-    public ChatroomListAdapter(Context context, ArrayList<String> mChatroomName, ArrayList<String> mChatroomSubname, ArrayList<String> mChatroomKeys){
+    public ChatMessageListAdapter(Context context, ArrayList<Chat_Messages> mChatroomName){
         mContext =context;
         mInflator = LayoutInflater.from(context);
-        this.mChatroomName = mChatroomName;
-        this.mChatroomSubname = mChatroomSubname;
-        this.mChatroomKeys =mChatroomKeys;
+        this.mChatObject = mChatroomName;
+
+
+
     }
 }
